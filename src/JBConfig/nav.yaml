@@ -1,0 +1,11 @@
+# yaml
+Home:
+    route: 'home'
+    role: 'IS_AUTHENTICATED_ANONYMOUSLY'
+    icon: 'fa-home'
+
+Tacos:
+    route: 'jerm_bundle_data_index'
+    parameters: {entity: 'tacos'}
+    role: 'ROLE_ADMIN'
+    icon: 'fa-send'

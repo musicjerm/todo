@@ -1,4 +1,11 @@
 twig:
-    paths: ['%kernel.project_dir%/templates']
+    paths:
+        '%kernel.project_dir%/templates': App
+        '%kernel.project_dir%/vendor/musicjerm/jermbundle/Resources/views': JermBundle
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        app_name: '%env(app_name)%'
+        app_short_name: '%env(app_short_name)%'
+        app_author: '%env(app_author)%'
+        app_version: '%env(app_version)%'

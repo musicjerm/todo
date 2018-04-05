@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% set title = app_name~' Login' %}
+    <title>{{ title }}</title>
+    <link href="{{ asset('libraries/Bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ asset('libraries/Font-Awesome/css/font-awesome.min.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ asset('libraries/AdminLTE/css/AdminLTE.min.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ asset('libraries/GoogleFont/font.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ asset('libraries/iCheck/skins/square/blue.css') }}" type="text/css" rel="stylesheet">
+</head>
+
+<body class="login-page">
+
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/">
+            <b>{{ app_name }}</b>
+        </a>
+    </div>
+    <div class="login-box-body">
+        {% if error %}
+            <p class="text-red login-box-msg">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+        {% else %}
+            <p class="login-box-msg">Please Log In</p>
+        {% endif %}
+
+        <form action="{{ path('login_check') }}" method="post">
+
+            <div class="form-group">
+                <label class="sr-only" for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="User Name or E-mail" required="required" />
+            </div>
+
+            <div class="form-group">
+                <label class="sr-only" for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="_password" placeholder="Password" required="required" />
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label>
+                            <input type="checkbox" id="remember_me" name="_remember_me">
+                            Keep me logged in
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-primary btn-block btn-flat">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        {#<a href="{{ path('password_reset_request') }}">Forgot your password?</a>
+        {% if new_user_request %}
+            <br>
+            <a href="{{ path('new_user_request') }}">Request access</a>
+        {% endif %}
+        <br>
+        <a href="{{ path('contact') }}">Contact Support</a>#}
+
+    </div>
+</div>
+
+<script src="{{ asset('libraries/jQuery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('libraries/iCheck/icheck.min.js') }}"></script>
+<script src="{{ asset('app/js/login.js') }}"></script>
+
+</body>
+
+</html>

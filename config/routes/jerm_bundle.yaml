@@ -1,0 +1,2 @@
+jerm_bundle:
+    resource: '@JermBundle/Resources/config/routes.yaml'
