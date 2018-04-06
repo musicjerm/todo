@@ -43,6 +43,24 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         parent::__construct($registry, User::class);
     }
 
+    public function standardQuery($orderBy, $orderDir, $firstResult, $maxResults, $filters)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb
+            ->setFirstResult($firstResult)
+            ->setMaxResults($maxResults)
+            ->orderBy($orderBy, $orderDir);
+
+        if ($filters['Search'] !== null){
+            $qb
+                ->andWhere('(u.username LIKE :username)')
+                ->setParameter('username', '%' . $filters['Search'] . '%');
+        }
+
+        return $qb->getQuery();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

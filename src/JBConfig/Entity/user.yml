@@ -1,0 +1,11 @@
+entity: 'App:User'
+role: 'ROLE_ADMIN'
+page_name: 'Users'
+
+columns:
+    - { title: 'ID', data: 'id', sort: 'u.id' }
+    - { title: 'User Name', data: 'username', sort: 'u.username' }
+    - { title: 'E-mail', data: 'email', sort: 'u.email' }
+
+filters:
+    - { name: 'Search', type: 'Text' }

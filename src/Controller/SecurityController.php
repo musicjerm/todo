@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends Controller
 {
     /**
-     * @Route("/login", name="login_path")
+     * @Route("/login", name="login")
      */
     public function loginAction()
     {
