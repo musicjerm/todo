@@ -6,6 +6,32 @@ columns:
     - { title: 'ID', data: 'id', sort: 'u.id' }
     - { title: 'User Name', data: 'username', sort: 'u.username' }
     - { title: 'E-mail', data: 'email', sort: 'u.email' }
+    - { title: 'Date Created', data: 'dateCreatedString', sort: 'u.dateCreated' }
+    - { title: 'Date Updated', data: 'dateUpdatedString', sort: 'u.dateUpdated' }
+    - { title: 'User Created', data: 'userCreated', sort: 'u.userCreated' }
+    - { title: 'User Updated', data: 'userUpdated', sort: 'u.userUpdated' }
+
+key: 'id'
 
 filters:
     - { name: 'Search', type: 'Text' }
+
+actions:
+    head:
+        jerm_bundle_crud_create:
+            role: 'ROLE_ADMIN'
+            text: 'New User'
+            icon: 'fa-plus'
+            btn: 'btn-primary'
+            params: { entity: 'user' }
+    item:
+        jerm_bundle_crud_update:
+            role: 'ROLE_ADMIN'
+            text: 'Update'
+            icon: 'fa-pencil'
+            params: { entity: 'user' }
+    group:
+        jerm_bundle_crud_delete:
+            role: 'ROLE_ADMIN'
+            text: 'Delete Selected'
+            params: { entity: 'user' }
