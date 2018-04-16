@@ -1,0 +1,38 @@
+entity: 'App:Task'
+role: 'ROLE_USER'
+page_name: 'Tasks'
+
+columns:
+    - { title: 'ID', data: 'id', sort: 't.id' }
+    - { title: 'Name', data: 'name', sort: 't.name' }
+    - { title: 'Description', data: 'description', sort: 't.description' }
+    - { title: 'Document', data: 'document', sort: 't.document' }
+    - { title: 'User Created', data: 'userCreated', sort: 't.userCreated' }
+    - { title: 'User Updated', data: 'userUpdated', sort: 't.userUpdated' }
+    - { title: 'Date Created', data: 'dateCreatedString', sort: 't.dateCreated' }
+    - { title: 'Date Updated', data: 'dateUpdatedString', sort: 't.dateUpdated' }
+
+key: 'id'
+view: [1, 3, 4, 7]
+tooltip: [-1, 2, -1, -1, -1, -1, -1, -1]
+
+actions:
+    head:
+        jerm_bundle_crud_create:
+            role: 'ROLE_USER'
+            text: 'New Task'
+            icon: 'fa-plus'
+            btn: 'btn-primary'
+            params: { entity: 'task' }
+    item:
+        jerm_bundle_crud_update:
+            role: 'ROLE_USER'
+            text: 'Update'
+            icon: 'fa-pencil'
+            restrict_owner: true
+            params: { entity: 'task' }
+    group:
+        jerm_bundle_crud_delete:
+            role: 'ROLE_USER'
+            text: 'Delete Selected'
+            params: { entity: 'task' }

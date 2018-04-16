@@ -10,3 +10,5 @@
 ###> phpstorm config ###
 /.idea/
 ###< phpstorm config ###
+
+/uploads/

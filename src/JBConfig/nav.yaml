@@ -4,9 +4,15 @@ Home:
     role: 'IS_AUTHENTICATED_ANONYMOUSLY'
     icon: 'fa-home'
 
+Tasks:
+    route: 'jerm_bundle_data_index'
+    parameters: { entity: 'task' }
+    role: 'ROLE_USER'
+    icon: 'fa-check-square'
+
 Admin:
     Users:
         route: 'jerm_bundle_data_index'
-        parameters: {entity: 'user'}
+        parameters: { entity: 'user' }
         role: 'ROLE_ADMIN'
         icon: 'fa-user'
