@@ -33,3 +33,8 @@ services:
             - { name: kernel.event_listener, event: jermbundle.crud_create, method: onCrudCreate }
             - { name: kernel.event_listener, event: jermbundle.crud_update, method: onCrudUpdate }
             - { name: kernel.event_listener, event: jermbundle.crud_delete, method: onCrudDelete }
+
+    App\EventListener\ImporterListener:
+        arguments: ['@doctrine.orm.entity_manager', '@security.token_storage']
+        tags:
+            - { name: kernel.event_listener, event: jermbundle.importer_import, method: onImport }

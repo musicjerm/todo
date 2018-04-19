@@ -173,7 +173,7 @@ class Task
 
     public function getDateUpdatedString(): string
     {
-        return $this->getDateCreated()->format('Y-m-d @ H:i:s');
+        return $this->getDateUpdated()->format('Y-m-d @ H:i:s');
     }
 
     /**

@@ -24,6 +24,12 @@ actions:
             icon: 'fa-plus'
             btn: 'btn-primary'
             params: { entity: 'task' }
+        jerm_bundle_importer_import:
+            role: 'ROLE_ADMIN'
+            text: 'Import'
+            icon: 'fa-upload'
+            btn: 'btn-success'
+            params: { entity: 'task' }
     item:
         jerm_bundle_crud_update:
             role: 'ROLE_USER'
@@ -31,8 +37,22 @@ actions:
             icon: 'fa-pencil'
             restrict_owner: true
             params: { entity: 'task' }
+        jerm_bundle_get_file:
+            role: 'ROLE_USER'
+            text: 'Download File'
+            icon: 'fa-download'
+            target: 'document'
+            method: 'href'
+            params: { entity: 'task' }
     group:
         jerm_bundle_crud_delete:
             role: 'ROLE_USER'
             text: 'Delete Selected'
             params: { entity: 'task' }
+
+import:
+    headers:
+        - 'id'
+        - 'name'
+        - 'description'
+    keys: [0]
