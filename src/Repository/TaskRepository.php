@@ -19,42 +19,18 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
+    // required for jermbundle filters
     public function standardQuery($orderBy, $orderDir, $firstResult, $maxResults, $filters, $user)
     {
         $qb = $this->createQueryBuilder('t')
+            ->andWhere('t.name LIKE :search OR t.description LIKE :search')
+            ->andWhere('t.userCreated = :user')
+            ->setParameter('search', '%' . $filters['Search'] . '%')
+            ->setParameter('user', $user)
             ->orderBy($orderBy, $orderDir)
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults);
 
         return $qb->getQuery();
     }
-
-//    /**
-//     * @return Task[] Returns an array of Task objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Task
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
