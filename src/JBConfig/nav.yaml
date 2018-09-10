@@ -16,3 +16,7 @@ Admin:
         parameters: { entity: 'user' }
         role: 'ROLE_ADMIN'
         icon: 'fa-user'
+    App Config:
+        route: 'jerm_bundle_app_config'
+        role: 'ROLE_ADMIN'
+        icon: 'fa-gear'
