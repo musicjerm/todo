@@ -36,7 +36,7 @@ class ActionLog
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_created;
+    private $dateCreated;
 
     public function getId()
     {
@@ -60,6 +60,15 @@ class ActionLog
         return $this->detail;
     }
 
+    public function getDetailShortString(): ?string
+    {
+        if (\strlen($this->getDetail()) > 43){
+            return substr($this->getDetail(), 0, 40) . '...';
+        }
+
+        return $this->getDetail();
+    }
+
     public function setDetail(?string $detail): self
     {
         $this->detail = $detail;
@@ -81,13 +90,18 @@ class ActionLog
 
     public function getDateCreated(): ?\DateTimeInterface
     {
-        return $this->date_created;
+        return $this->dateCreated;
+    }
+
+    public function getDateCreatedString(): string
+    {
+        return $this->getDateCreated() ? $this->getDateCreated()->format('Y-m-d @h:i a') : '';
     }
 
     /** @ORM\PrePersist() */
     public function setDateCreated(): self
     {
-        $this->date_created = new \DateTime();
+        $this->dateCreated = new \DateTime();
 
         return $this;
     }

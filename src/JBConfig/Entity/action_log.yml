@@ -1,0 +1,32 @@
+entity: 'App:ActionLog'
+role: 'ROLE_ADMIN'
+page_name: 'User Log'
+
+columns:
+    - {title: 'ID', data: 'id', sort: 'al.id'}
+    - {title: 'User', data: 'userCreated', sort: 'al.userCreated'}
+    - {title: 'Action', data: 'action', sort: 'al.action'}
+    - {title: 'Detail', data: 'detail', sort: 'al.detail'}
+    - {title: 'Details', data: 'detailShortString', sort: 'al.detail'}
+    - {title: 'Date', data: 'dateCreatedString', sort: 'al.dateCreated'}
+
+sortId: 0
+sortDir: 'desc'
+view: [1, 2, 4, 5]
+dump: [1, 2, 3, 5]
+tooltip: [-1, -1, -1, -1, 3, -1]
+
+template: 'dataIndex/action_log.html.twig'
+
+filters:
+    - {name: 'Search', type: 'Text'}
+    -
+        name: 'User'
+        type: 'Entity'
+        array:
+            class: 'App:User'
+            attr: {class: 'select2', style: 'width: 100%'}
+            placeholder: 'All'
+    -
+        name: 'DateRange'
+        type: 'DateRange'

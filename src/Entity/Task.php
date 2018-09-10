@@ -65,7 +65,7 @@ class Task
      */
     private $dateUpdated;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }
@@ -75,7 +75,7 @@ class Task
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -146,7 +146,7 @@ class Task
         return $this;
     }
 
-    public function getDateCreated(): ?\DateTimeInterface
+    public function getDateCreated(): \DateTimeInterface
     {
         return $this->dateCreated;
     }
@@ -166,7 +166,7 @@ class Task
         return $this;
     }
 
-    public function getDateUpdated(): ?\DateTimeInterface
+    public function getDateUpdated(): \DateTimeInterface
     {
         return $this->dateUpdated;
     }

@@ -1,0 +1,21 @@
+{% extends '@Jerm/Base/data_index.html.twig' %}
+
+{% block data_filters %}
+
+    <div class="col-xs-8 col-sm-3">
+        {{ form_row(filters_form.Search) }}
+    </div>
+    <div class="col-xs-12 col-sm-3">
+        {{ form_row(filters_form.User) }}
+    </div>
+
+    <div class="col-xs-12 col-sm-4">
+        {{ form_label(filters_form.DateRange) }}
+        <div class="input-daterange input-group">
+            {{ form_widget(filters_form.DateRange) }}
+            <span class="input-group-addon">to</span>
+            {{ form_widget(filters_form.EndDate) }}
+        </div>
+    </div>
+
+{% endblock %}

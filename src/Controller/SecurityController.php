@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SecurityController extends Controller
@@ -10,7 +11,7 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function loginAction()
+    public function loginAction(): Response
     {
         $authenticationUtils = $this->get('security.authentication_utils');
 
@@ -25,18 +26,15 @@ class SecurityController extends Controller
             array(
                 // last username entered by the user
                 'last_username' => $lastUsername,
-                'error'         => $error,
-                'new_user_request' => isset($newUserRequest) ? $newUserRequest : false
+                'error'         => $error
             )
         );
     }
 
-
-
     /**
      * @Route("/login_check", name="login_check")
      */
-    public function loginCheckAction()
+    public function loginCheckAction(): void
     {
         // this action will not be executed,
         // as the route is handled by the Security system
@@ -45,10 +43,9 @@ class SecurityController extends Controller
     /**
      * @Route("/logout", name="logout")
      */
-    public function logoutAction()
+    public function logoutAction(): void
     {
         // this action will not be executed,
         // as the route is handled by the Security system
     }
-
 }

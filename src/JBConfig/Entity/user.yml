@@ -6,6 +6,8 @@ columns:
     - { title: 'ID', data: 'id', sort: 'u.id' }
     - { title: 'User Name', data: 'username', sort: 'u.username' }
     - { title: 'E-mail', data: 'email', sort: 'u.email' }
+    - { title: 'First Name', data: 'firstName', sort: 'u.firstName' }
+    - { title: 'Last Name', data: 'lastName', sort: 'u.lastName' }
     - { title: 'Date Created', data: 'dateCreatedString', sort: 'u.dateCreated' }
     - { title: 'Date Updated', data: 'dateUpdatedString', sort: 'u.dateUpdated' }
     - { title: 'User Created', data: 'userCreated', sort: 'u.userCreated' }
@@ -18,14 +20,13 @@ filters:
 
 actions:
     head:
-        jerm_bundle_crud_create:
+        user_create:
             role: 'ROLE_ADMIN'
             text: 'New User'
             icon: 'fa-plus'
             btn: 'btn-primary'
-            params: { entity: 'user' }
     item:
-        jerm_bundle_crud_update:
+        user_update:
             role: 'ROLE_ADMIN'
             text: 'Update'
             icon: 'fa-pencil'

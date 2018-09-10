@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ActionLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,32 +20,57 @@ class ActionLogRepository extends ServiceEntityRepository
         parent::__construct($registry, ActionLog::class);
     }
 
-//    /**
-//     * @return ActionLog[] Returns an array of ActionLog objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $orderBy
+     * @param $orderDir
+     * @param $firstResult
+     * @param $maxResults
+     * @param $filters
+     * @return Query
+     * @throws \Exception
+     */
+    public function standardQuery($orderBy, $orderDir, $firstResult, $maxResults, $filters): Query
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('al');
 
-    /*
-    public function findOneBySomeField($value): ?ActionLog
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ($filters['Search'] !== null){
+            $searchArray = array();
+            $whereArray = array();
+            foreach (explode(' ', $filters['Search']) as $key => $val){
+                $searchArray[$key] = '%' . $val . '%';
+                $whereArray[$key] = "(al.action LIKE ?$key OR al.detail LIKE ?$key)";
+            }
+
+            $qb
+                ->andWhere(implode(' AND ', $whereArray))
+                ->setParameters($searchArray);
+        }
+
+        if ($filters['User'] !== null){
+            $qb
+                ->andWhere('al.userCreated = :user')
+                ->setParameter('user', $filters['User']);
+        }
+
+        if ($filters['DateRange'] !== null) {
+            $qb
+                ->andWhere('al.dateCreated > :startDate')
+                ->setParameter('startDate', $filters['DateRange']);
+        }
+
+        if ($filters['EndDate'] !== null) {
+            $endDate = new \DateTime($filters['EndDate']);
+            $endDate->add(new \DateInterval('P1D'));
+            $qb
+                ->andWhere('al.dateCreated <= :endDate')
+                ->setParameter('endDate', $endDate);
+        }
+
+        $qb
+            ->orderBy($orderBy, $orderDir)
+            ->setFirstResult($firstResult)
+            ->setMaxResults($maxResults);
+
+        return $qb->getQuery();
     }
-    */
 }

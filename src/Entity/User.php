@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Form\DTO\UserData;
+use App\Form\DTO\UserDataUpdate;
 use Doctrine\ORM\Mapping as ORM;
 use Musicjerm\Bundle\JermBundle\Entity\User as BaseUser;
 
@@ -19,12 +21,12 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=128)
      */
     protected $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=128)
      */
     protected $email;
 
@@ -37,6 +39,16 @@ class User extends BaseUser
      * @ORM\Column(type="simple_array")
      */
     protected $roles;
+
+    /**
+     * @ORM\Column(type="string", length=128)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=128)
+     */
+    private $lastName;
 
     /**
      * @ORM\Column(type="boolean")
@@ -64,6 +76,28 @@ class User extends BaseUser
      * @ORM\JoinColumn(name="user_updated")
      */
     private $userUpdated;
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+        return $this;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
 
     public function getIsActive(): ?bool
     {
@@ -142,5 +176,17 @@ class User extends BaseUser
     public function getDateUpdatedString(): string
     {
         return $this->getDateUpdated()->format('Y-m-d @ h:i:s a');
+    }
+
+    /** @param UserData|UserDataUpdate $dto */
+    public function setDataFromDTO($dto): void
+    {
+        $this->username = $dto->username;
+        $this->email = $dto->email;
+        $this->firstName = $dto->firstName;
+        $this->lastName = $dto->lastName;
+        $dto->password === null ?: $this->password = password_hash($dto->password, PASSWORD_BCRYPT);
+        $this->roles = [$dto->roles];
+        $this->isActive = $dto->isActive;
     }
 }

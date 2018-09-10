@@ -16,6 +16,11 @@ Admin:
         parameters: { entity: 'user' }
         role: 'ROLE_ADMIN'
         icon: 'fa-user'
+    Action Log:
+        route: 'jerm_bundle_data_index'
+        parameters: { entity: 'action_log' }
+        role: 'ROLE_ADMIN'
+        icon: 'fa-book'
     App Config:
         route: 'jerm_bundle_app_config'
         role: 'ROLE_ADMIN'
