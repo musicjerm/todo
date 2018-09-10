@@ -1,14 +1,16 @@
+###> phpstorm settings ###
+/.idea/
+###< phpstorm settings ###
 
 ###> symfony/framework-bundle ###
 /.env
-/bin/
+/.env.dist
 /public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
 
-###> phpstorm config ###
-/.idea/
-###< phpstorm config ###
-
+###> application data ###
+/documents/
 /uploads/
+###< application data ###
