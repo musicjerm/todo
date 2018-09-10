@@ -8,6 +8,9 @@ parameters:
     app_version: '4.0'
     email_from: '%env(EMAIL_FROM)%'
     name_from: '%env(NAME_FROM)%'
+    git_user: null
+    git_pass: null
+    git_repo: 'github.com/musicjerm/todo.git'
 
 services:
     # default configuration for services in *this* file
