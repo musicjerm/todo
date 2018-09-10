@@ -3,40 +3,40 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Musicjerm\Bundle\JermBundle\Entity\User as BaseUser;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class User implements AdvancedUserInterface, \Serializable
+class User extends BaseUser
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    protected $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    protected $email;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
-    private $password;
+    protected $password;
 
     /**
      * @ORM\Column(type="simple_array")
      */
-    private $roles;
+    protected $roles;
 
     /**
      * @ORM\Column(type="boolean")
@@ -65,64 +65,6 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $userUpdated;
 
-    public function __toString()
-    {
-        return $this->getUsername();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = password_hash($password, PASSWORD_BCRYPT);
-
-        return $this;
-    }
-
-    public function getRoles(): ?array
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
     public function getIsActive(): ?bool
     {
         return $this->isActive;
@@ -135,63 +77,7 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
-
-    public function getSalt()
-    {
-        // handled by bcrypt internally
-        return null;
-    }
-
-    public function isEnabled()
-    {
-        return $this->isActive;
-    }
-
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->isActive
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list(
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->isActive
-            ) = unserialize($serialized);
-    }
-
-    public function isAccountNonExpired()
-    {
-        // TODO: Implement isAccountNonExpired() method.
-        return true;
-    }
-
-    public function isAccountNonLocked()
-    {
-        // TODO: Implement isAccountNonLocked() method.
-        return true;
-    }
-
-    public function isCredentialsNonExpired()
-    {
-        // TODO: Implement isCredentialsNonExpired() method.
-        return true;
-    }
-
-    public function getDateCreated(): ?\DateTimeInterface
+    public function getDateCreated(): \DateTimeInterface
     {
         return $this->dateCreated;
     }
@@ -207,7 +93,7 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
-    public function getDateUpdated(): ?\DateTimeInterface
+    public function getDateUpdated(): \DateTimeInterface
     {
         return $this->dateUpdated;
     }
@@ -248,12 +134,12 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
-    public function getDateCreatedString()
+    public function getDateCreatedString(): string
     {
         return $this->getDateCreated()->format('Y-m-d @ h:i:s a');
     }
 
-    public function getDateUpdatedString()
+    public function getDateUpdatedString(): string
     {
         return $this->getDateUpdated()->format('Y-m-d @ h:i:s a');
     }

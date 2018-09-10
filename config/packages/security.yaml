@@ -24,24 +24,23 @@ security:
             security: false
 
         main:
-            logout_on_user_change: true
-            security: true
-            anonymous: true
+            pattern: ^/
+            user_checker: App\Security\UserChecker
+            anonymous: ~
             provider: db_users
             form_login:
                 login_path: /login
                 check_path: /login_check
                 default_target_path: /
                 csrf_token_generator: security.csrf.token_manager
-
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
                 path: /
-
             logout:
                 path: /logout
                 target: /
+            security: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

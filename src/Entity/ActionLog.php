@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ActionLogRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ActionLog
 {
@@ -28,7 +29,7 @@ class ActionLog
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(name="userCreated", nullable=false)
+     * @ORM\JoinColumn(name="userCreated", nullable=true)
      */
     private $userCreated;
 
@@ -83,9 +84,10 @@ class ActionLog
         return $this->date_created;
     }
 
-    public function setDateCreated(\DateTimeInterface $date_created): self
+    /** @ORM\PrePersist() */
+    public function setDateCreated(): self
     {
-        $this->date_created = $date_created;
+        $this->date_created = new \DateTime();
 
         return $this;
     }

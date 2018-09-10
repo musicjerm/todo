@@ -5,7 +5,8 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        app_name: '%env(app_name)%'
-        app_short_name: '%env(app_short_name)%'
-        app_author: '%env(app_author)%'
-        app_version: '%env(app_version)%'
+        app_name: '%app_name%'
+        app_short_name: '%app_short_name%'
+        app_author: '%app_author%'
+        app_version: '%app_version%'
+        email_from: '%email_from%'
