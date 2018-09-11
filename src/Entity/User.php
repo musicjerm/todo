@@ -99,6 +99,11 @@ class User extends BaseUser
         return $this->lastName;
     }
 
+    public function getFullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
     public function getIsActive(): ?bool
     {
         return $this->isActive;

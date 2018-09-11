@@ -8,12 +8,15 @@ columns:
     - { title: 'E-mail', data: 'email', sort: 'u.email' }
     - { title: 'First Name', data: 'firstName', sort: 'u.firstName' }
     - { title: 'Last Name', data: 'lastName', sort: 'u.lastName' }
+    - { title: 'Full Name', data: 'fullName', sort: 'hFullName' }
     - { title: 'Date Created', data: 'dateCreatedString', sort: 'u.dateCreated' }
     - { title: 'Date Updated', data: 'dateUpdatedString', sort: 'u.dateUpdated' }
     - { title: 'User Created', data: 'userCreated', sort: 'u.userCreated' }
     - { title: 'User Updated', data: 'userUpdated', sort: 'u.userUpdated' }
 
 key: 'id'
+view: [1, 2, 5, 8, 9]
+tooltip: [-1, -1, -1, -1, -1, -1, -1, -1, 6, 7]
 
 filters:
     - { name: 'Search', type: 'Text' }
@@ -36,3 +39,11 @@ actions:
             role: 'ROLE_ADMIN'
             text: 'Delete Selected'
             params: { entity: 'user' }
+            constraints:
+                - { entity: 'JermBundle:DtConfig', field: 'user' }
+                - { entity: 'JermBundle:DtFilter', field: 'user' }
+                - { entity: 'App:ActionLog', field: 'userCreated' }
+                - { entity: 'App:Task', field: 'userCreated' }
+                - { entity: 'App:Task', field: 'userUpdated' }
+                - { entity: 'App:User', field: 'userCreated' }
+                - { entity: 'App:User', field: 'userUpdated' }

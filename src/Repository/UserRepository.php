@@ -47,46 +47,26 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         $qb = $this->createQueryBuilder('u');
 
+        $qb->addSelect("CONCAT(u.firstName, ' ', u.lastName) AS HIDDEN hFullName");
+
         $qb
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults)
             ->orderBy($orderBy, $orderDir);
 
         if ($filters['Search'] !== null){
+            $searchArray = array();
+            $whereArray = array();
+            foreach (explode(' ', $filters['Search']) as $key => $val){
+                $searchArray[$key] = '%' . $val . '%';
+                $whereArray[$key] = "(u.username LIKE ?$key OR u.email LIKE ?$key OR u.firstName LIKE ?$key OR u.lastName LIKE ?$key)";
+            }
+
             $qb
-                ->andWhere('(u.username LIKE :username)')
-                ->setParameter('username', '%' . $filters['Search'] . '%');
+                ->andWhere(implode(' AND ', $whereArray))
+                ->setParameters($searchArray);
         }
 
         return $qb->getQuery();
     }
-
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
