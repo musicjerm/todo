@@ -8,18 +8,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TaskType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
-            ->add('description')
-            ->add('file', null, ['label' => 'Attach Document']);
+            ->add('description', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, array(
+                'required' => false
+            ))
+            ->add('document');
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Task'
+            'data_class' => \App\Form\DTO\TaskData::class,
         ));
     }
 }

@@ -15,31 +15,20 @@ columns:
 key: 'id'
 view: [1, 3, 4, 7]
 tooltip: [-1, 2, -1, -1, -1, -1, -1, -1]
+sortId: 7
+sortDir: 'desc'
 
 filters:
     - { name: 'Search', type: 'Text' }
 
 actions:
     head:
-        jerm_bundle_crud_create:
+        create_task:
             role: 'ROLE_USER'
             text: 'New Task'
             icon: 'fa-plus'
             btn: 'btn-primary'
-            params: { entity: 'task' }
-        jerm_bundle_importer_import:
-            role: 'ROLE_ADMIN'
-            text: 'Import'
-            icon: 'fa-upload'
-            btn: 'btn-success'
-            params: { entity: 'task' }
     item:
-        jerm_bundle_crud_update:
-            role: 'ROLE_USER'
-            text: 'Update'
-            icon: 'fa-pencil'
-            restrict_owner: true
-            params: { entity: 'task' }
         jerm_bundle_get_file:
             role: 'ROLE_USER'
             text: 'Download File'
@@ -52,9 +41,3 @@ actions:
             role: 'ROLE_USER'
             text: 'Delete Selected'
             params: { entity: 'task' }
-
-import:
-    headers:
-        - 'name'
-        - 'description'
-    keys: []

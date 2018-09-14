@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
@@ -19,55 +17,30 @@ class Task
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string", length=255) */
     private $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    /** @ORM\Column(type="text", nullable=true) */
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    /** @ORM\Column(type="string", length=255, nullable=true) */
     private $document;
 
-    /**
-     * @Assert\File(
-     *     maxSize = "2M",
-     *     mimeTypes = {"image/jpeg", "image/png", "application/pdf"},
-     *     mimeTypesMessage = "Please upload a valid image or document file"
-     * )
-     */
-    private $file;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(name="user_created")
-     */
+    /** @ORM\ManyToOne(targetEntity="App\Entity\User") */
     private $userCreated;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(name="user_updated")
-     */
+    /** @ORM\ManyToOne(targetEntity="App\Entity\User") */
     private $userUpdated;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    /** @ORM\Column(type="datetime") */
     private $dateCreated;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    /** @ORM\Column(type="datetime") */
     private $dateUpdated;
 
     public function __toString(): string
     {
-        return $this->getName();
+        return $this->getName() ?? '';
     }
 
     public function getId()
@@ -83,7 +56,6 @@ class Task
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -95,7 +67,6 @@ class Task
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -107,42 +78,28 @@ class Task
     public function setDocument(?string $document): self
     {
         $this->document = $document;
-
         return $this;
     }
 
-    public function getFile(): ?UploadedFile
-    {
-        return $this->file;
-    }
-
-    public function setFile(?UploadedFile $file = null): self
-    {
-        $this->file = $file;
-        return $this;
-    }
-
-    public function getUserCreated(): ?User
+    public function getUserCreated(): User
     {
         return $this->userCreated;
     }
 
-    public function setUserCreated(?User $userCreated): self
+    public function setUserCreated(User $userCreated): self
     {
         $this->userCreated = $userCreated;
-
         return $this;
     }
 
-    public function getUserUpdated(): ?User
+    public function getUserUpdated(): User
     {
         return $this->userUpdated;
     }
 
-    public function setUserUpdated(?User $userUpdated): self
+    public function setUserUpdated(User $userUpdated): self
     {
         $this->userUpdated = $userUpdated;
-
         return $this;
     }
 
