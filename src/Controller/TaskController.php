@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ActionLog;
+use App\Entity\Task;
 use App\Entity\User;
 use App\Form\CRUD\TaskType;
 use App\Form\DTO\TaskData;
@@ -80,5 +81,48 @@ class TaskController extends Controller
             'header' => 'Create new Task',
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route("/task/view/{id}", name="view_task")
+     * @param UserInterface|User $user
+     * @param string $id
+     * @return Response
+     */
+    public function viewAction(UserInterface $user, string $id): Response
+    {
+        // set repo and query task
+        $taskRepo = $this->getDoctrine()->getRepository('App:Task');
+        /** @var Task $task */
+        $task = $taskRepo->find($id);
+
+        // make sure task exists
+        if ($task === null){
+            return $this->render('@Jerm/Modal/notification.html.twig', array(
+                'message' => "Task $id does not exist.",
+                'type' => 'error',
+                'modal_size' => 'modal-sm',
+                'refresh' => true
+            ));
+        }
+
+        // make sure user is authorized
+        if ($this->authViewCheck($user, $task) === false){
+            return $this->render('@Jerm/Modal/notification.html.twig', array(
+                'message' => 'You do not have permission to view this task.',
+                'type' => 'error'
+            ));
+        }
+
+        // return view to user
+        return $this->render('task/view_task.html.twig', array(
+            'task' => $task
+        ));
+    }
+
+    private function authViewCheck(User $user, Task $task): bool
+    {
+        // check if user created
+        return ($task->getUserCreated() === $user);
     }
 }

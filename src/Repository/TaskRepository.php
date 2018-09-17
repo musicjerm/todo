@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,14 +20,12 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    // required for jermbundle filters
-    public function standardQuery($orderBy, $orderDir, $firstResult, $maxResults, $filters, $user)
+    // required for JermBundle filters
+    public function standardQuery($orderBy, $orderDir, $firstResult, $maxResults, $filters, $user): Query
     {
         $qb = $this->createQueryBuilder('t')
             ->andWhere('t.name LIKE :search OR t.description LIKE :search')
-            ->andWhere('t.userCreated = :user')
-            ->setParameter('search', '%' . $filters['Search'] . '%')
-            ->setParameter('user', $user)
+            ->setParameter('search', "%$filters[Search]%")
             ->orderBy($orderBy, $orderDir)
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults);

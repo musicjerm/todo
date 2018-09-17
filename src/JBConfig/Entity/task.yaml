@@ -29,6 +29,10 @@ actions:
             icon: 'fa-plus'
             btn: 'btn-primary'
     item:
+        view_task:
+            role: 'ROLE_USER'
+            text: 'View'
+            icon: 'fa-eye'
         jerm_bundle_get_file:
             role: 'ROLE_USER'
             text: 'Download File'
