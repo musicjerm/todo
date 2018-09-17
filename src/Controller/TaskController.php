@@ -60,7 +60,7 @@ class TaskController extends Controller
             $log = new ActionLog();
             $log
                 ->setAction('Create Task')
-                ->setDetail($newTask->getId() . " - $taskData->name")
+                ->setDetail($newTask->getId() . " - $taskData->title")
                 ->setUserCreated($user);
 
             // persist log, flush db

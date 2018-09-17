@@ -12,12 +12,17 @@ class TaskData
      * @Assert\NotBlank()
      * @Assert\Length(max="128")
      */
-    public $name;
+    public $title;
 
     /**
      * @var string
      */
     public $description;
+
+    /**
+     * @var string
+     */
+    public $followUp;
 
     /**
      * @var UploadedFile

@@ -4,7 +4,7 @@ page_name: 'Tasks'
 
 columns:
     - { title: 'ID', data: 'id', sort: 't.id' }
-    - { title: 'Name', data: 'name', sort: 't.name' }
+    - { title: 'Title', data: 'title', sort: 't.title' }
     - { title: 'Description', data: 'description', sort: 't.description' }
     - { title: 'Document', data: 'document', sort: 't.document' }
     - { title: 'User Created', data: 'userCreated', sort: 't.userCreated' }

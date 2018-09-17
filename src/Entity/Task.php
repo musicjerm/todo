@@ -18,10 +18,13 @@ class Task
     private $id;
 
     /** @ORM\Column(type="string", length=255) */
-    private $name;
+    private $title;
 
     /** @ORM\Column(type="text", nullable=true) */
     private $description;
+
+    /** @ORM\Column(type="text", nullable=true) */
+    private $followUp;
 
     /** @ORM\Column(type="string", length=255, nullable=true) */
     private $document;
@@ -40,7 +43,7 @@ class Task
 
     public function __toString(): string
     {
-        return $this->getName() ?? '';
+        return $this->getTitle() ?? '';
     }
 
     public function getId()
@@ -48,14 +51,14 @@ class Task
         return $this->id;
     }
 
-    public function getName(): string
+    public function getTitle(): string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): self
+    public function setTitle(string $title): self
     {
-        $this->name = $name;
+        $this->title = $title;
         return $this;
     }
 
@@ -67,6 +70,17 @@ class Task
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function getFollowUp(): ?string
+    {
+        return $this->followUp;
+    }
+
+    public function setFollowUp(?string $followUp): self
+    {
+        $this->followUp = $followUp;
         return $this;
     }
 

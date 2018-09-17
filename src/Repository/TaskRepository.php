@@ -24,8 +24,6 @@ class TaskRepository extends ServiceEntityRepository
     public function standardQuery($orderBy, $orderDir, $firstResult, $maxResults, $filters, $user): Query
     {
         $qb = $this->createQueryBuilder('t')
-            ->andWhere('t.name LIKE :search OR t.description LIKE :search')
-            ->setParameter('search', "%$filters[Search]%")
             ->orderBy($orderBy, $orderDir)
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults);

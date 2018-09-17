@@ -15,30 +15,34 @@ class TaskTransformer
         $this->user = $user;
     }
 
-    public function transform(TaskData $taskData): Task
+    public function transform(TaskData $taskData, Task $task = null): Task
     {
-        // create new task
-        $task = new Task();
+        // create new task if none passed, set values
+        $task !== null ?: ($task = new Task())->setUserCreated($this->user);
         $task
-            ->setName($taskData->name)
+            ->setTitle($taskData->title)
             ->setDescription($taskData->description)
-            ->setUserCreated($this->user)
+            ->setFollowUp($taskData->followUp)
             ->setUserUpdated($this->user);
 
+        // set file name if document uploaded
         if ($taskData->document !== null){
             $task->setDocument($taskData->document->getClientOriginalName());
         }
 
+        // return task
         return $task;
     }
 
     public function reverseTransform(Task $task): TaskData
     {
-        // create new task data
+        // create new task data from queried object
         $taskData = new TaskData();
-        $taskData->name = $task->getName();
+        $taskData->title = $task->getTitle();
         $taskData->description = $task->getDescription();
+        $taskData->followUp = $task->getFollowUp();
 
+        // return task data
         return $taskData;
     }
 }
