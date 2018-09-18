@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Entity\ActionLog;
 use App\Entity\Task;
 use App\Entity\User;
-use App\Form\CRUD\TaskType;
-use App\Form\DTO\TaskData;
-use App\Form\Transformer\TaskTransformer;
+use App\Form\Task\TaskData;
+use App\Form\Task\TaskCreateType;
+use App\Form\Task\TaskTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +28,7 @@ class TaskController extends Controller
         $taskData = new TaskData();
 
         // build form
-        $form = $this->createForm(TaskType::class, $taskData, array(
+        $form = $this->createForm(TaskCreateType::class, $taskData, array(
             'action' => $this->generateUrl('create_task')
         ));
 

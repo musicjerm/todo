@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +19,7 @@ class Task
      */
     private $id;
 
-    /** @ORM\Column(type="string", length=255) */
+    /** @ORM\Column(type="string", length=128) */
     private $title;
 
     /** @ORM\Column(type="text", nullable=true) */
@@ -26,8 +28,26 @@ class Task
     /** @ORM\Column(type="text", nullable=true) */
     private $followUp;
 
+    /** @ORM\Column(type="boolean") */
+    private $public;
+
+    /** @ORM\Column(type="string", length=128) */
+    private $priority;
+
+    /** @ORM\Column(type="string", length=128) */
+    private $status;
+
+    /** @ORM\Column(type="simple_array", nullable=true) */
+    private $tags;
+
+    /** @ORM\Column(type="date", nullable=true) */
+    private $targetCompleteDate;
+
     /** @ORM\Column(type="string", length=255, nullable=true) */
     private $document;
+
+    /** @ORM\ManyToMany(targetEntity="App\Entity\User") */
+    private $userSubscribed;
 
     /** @ORM\ManyToOne(targetEntity="App\Entity\User") */
     private $userCreated;
@@ -40,6 +60,11 @@ class Task
 
     /** @ORM\Column(type="datetime") */
     private $dateUpdated;
+
+    public function __construct()
+    {
+        $this->userSubscribed = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -81,6 +106,88 @@ class Task
     public function setFollowUp(?string $followUp): self
     {
         $this->followUp = $followUp;
+        return $this;
+    }
+
+    /** @return Collection|User[] */
+    public function getUserSubscribed(): Collection
+    {
+        return $this->userSubscribed;
+    }
+
+    public function setUserSubscribed(array $users): self
+    {
+        $this->userSubscribed = $users;
+        return $this;
+    }
+
+    public function getPublic(): bool
+    {
+        return $this->public;
+    }
+
+    public function getPublicString(): string
+    {
+        return $this->public ? 'Yes' : 'No';
+    }
+
+    public function setPublic(bool $public): self
+    {
+        $this->public = $public;
+        return $this;
+    }
+
+    public function getPriority(): string
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(string $priority): self
+    {
+        $this->priority = $priority;
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    public function getTagsString(): ?string
+    {
+        return empty($this->tags) ? null : implode(', ', $this->tags);
+    }
+
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+
+    public function getTargetCompleteDate(): ?\DateTime
+    {
+        return $this->targetCompleteDate;
+    }
+
+    public function getTargetCompleteDateString(): ?string
+    {
+        return $this->getTargetCompleteDate() === null ? null : $this->getTargetCompleteDate()->format('Y-m-d');
+    }
+
+    public function setTargetCompleteDate(?\DateTime $targetCompleteDate): self
+    {
+        $this->targetCompleteDate = $targetCompleteDate;
         return $this;
     }
 

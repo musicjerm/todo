@@ -6,6 +6,12 @@ columns:
     - { title: 'ID', data: 'id', sort: 't.id' }
     - { title: 'Title', data: 'title', sort: 't.title' }
     - { title: 'Description', data: 'description', sort: 't.description' }
+    - { title: 'Follow Up', data: 'followUp', sort: 't.followUp' }
+    - { title: 'Public', data: 'publicString', sort: 't.public' }
+    - { title: 'Priority', data: 'priority', sort: 't.priority' }
+    - { title: 'Status', data: 'status', sort: 't.status' }
+    - { title: 'Tags', data: 'tagsString', sort: 't.tags' }
+    - { title: 'Target Completion Date', data: 'targetCompleteDateString', sort: 't.targetCompleteDate' }
     - { title: 'Document', data: 'document', sort: 't.document' }
     - { title: 'User Created', data: 'userCreated', sort: 't.userCreated' }
     - { title: 'User Updated', data: 'userUpdated', sort: 't.userUpdated' }
@@ -13,8 +19,6 @@ columns:
     - { title: 'Date Updated', data: 'dateUpdatedString', sort: 't.dateUpdated' }
 
 key: 'id'
-view: [1, 3, 4, 7]
-tooltip: [-1, 2, -1, -1, -1, -1, -1, -1]
 sortId: 7
 sortDir: 'desc'
 
@@ -44,4 +48,5 @@ actions:
         jerm_bundle_crud_delete:
             role: 'ROLE_USER'
             text: 'Delete Selected'
+            restrict_owner: true
             params: { entity: 'task' }

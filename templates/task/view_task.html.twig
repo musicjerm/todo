@@ -24,6 +24,24 @@
         <p>{{ task.followUp }}</p>
     </div>
 
+    <div class="modal-body">
+        <p>Subscribed Users:</p>
+        <ul>
+            {% for user in task.userSubscribed %}
+                <li>{{ user.email }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="modal-body">
+        <p>Tags:</p>
+        <ul>
+            {% for tag in task.tags %}
+                <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
     <div class="modal-footer">
         <button class="btn btn-default btn-flat pull-left" data-dismiss="modal">Close</button>
     </div>

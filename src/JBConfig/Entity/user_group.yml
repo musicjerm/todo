@@ -1,0 +1,35 @@
+entity: 'App:UserGroup'
+role: 'ROLE_USER'
+page_name: 'User Groups'
+
+columns:
+    - { title: 'ID', data: 'id', sort: 'ug.id' }
+    - { title: 'Name', data: 'name', sort: 'ug.name' }
+    - { title: 'Users', data: 'usersString', sort: 'ug.users' }
+    - { title: 'Created', data: 'dateCreatedString', sort: 'ug.dateCreated' }
+    - { title: 'Updated', data: 'dateUpdatedString', sort: 'ug.dateUpdated' }
+
+key: 'id'
+
+actions:
+    head:
+        jerm_bundle_crud_create:
+            role: 'ROLE_USER'
+            text: 'New'
+            icon: 'fa-plus'
+            btn: 'btn-primary'
+            params: { entity: 'user_group' }
+    item:
+        jerm_bundle_crud_update:
+            role: 'ROLE_USER'
+            text: 'Edit'
+            icon: 'fa-pencil'
+            btn: 'btn-primary'
+            restrict_owner: true
+            params: { entity: 'user_group' }
+    group:
+        jerm_bundle_crud_delete:
+            role: 'ROLE_USER'
+            text: 'Delete Selected'
+            restrict_owner: true
+            params: { entity: 'user_group' }

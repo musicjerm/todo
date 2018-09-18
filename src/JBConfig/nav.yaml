@@ -3,7 +3,11 @@ Home:
     route: 'home'
     role: 'IS_AUTHENTICATED_ANONYMOUSLY'
     icon: 'fa-home'
-
+User Groups:
+    route: 'jerm_bundle_data_index'
+    parameters: { entity: 'user_group' }
+    role: 'ROLE_USER'
+    icon: 'fa-users'
 Tasks:
     route: 'jerm_bundle_data_index'
     parameters: { entity: 'task' }
