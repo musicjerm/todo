@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Form\DTO\UserData;
-use App\Form\DTO\UserDataUpdate;
+use App\Form\User\UserData;
+use App\Form\User\UserUpdateData;
 use Doctrine\ORM\Mapping as ORM;
 use Musicjerm\Bundle\JermBundle\Entity\User as BaseUser;
 
@@ -183,7 +183,7 @@ class User extends BaseUser
         return $this->getDateUpdated()->format('Y-m-d @ h:i:s a');
     }
 
-    /** @param UserData|UserDataUpdate $dto */
+    /** @param UserData|UserUpdateData $dto */
     public function setDataFromDTO($dto): void
     {
         $this->username = $dto->username;

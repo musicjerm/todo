@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\ActionLog;
 use App\Entity\User;
-use App\Form\CRUD\UserType;
-use App\Form\DTO\UserData;
-use App\Form\DTO\UserDataUpdate;
+use App\Form\User\UserType;
+use App\Form\User\UserData;
+use App\Form\User\UserUpdateData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -105,7 +105,7 @@ class UserController extends Controller
         }
 
         // create base DTO from existing user entity
-        $userData = new UserDataUpdate();
+        $userData = new UserUpdateData();
         $userData->setDataFromObject($workingUser);
 
         // build form
