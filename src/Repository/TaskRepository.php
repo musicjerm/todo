@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Task;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -21,12 +22,31 @@ class TaskRepository extends ServiceEntityRepository
     }
 
     // required for JermBundle filters
-    public function standardQuery($orderBy, $orderDir, $firstResult, $maxResults, $filters, $user): Query
+    public function standardQuery($orderBy, $orderDir, $firstResult, $maxResults, $filters, User $user): Query
     {
-        $qb = $this->createQueryBuilder('t')
+        $qb = $this->createQueryBuilder('t');
+
+        $qb
+            ->leftJoin('t.userSubscribed', 'us')
             ->orderBy($orderBy, $orderDir)
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults);
+
+        if (!\in_array('ROLE_ADMIN', $user->getRoles(), true)){
+            $qb
+                ->andWhere('(t.userCreated = :user OR us = :user OR t.public = :public)')
+                ->setParameters(['user' => $user, 'public' => true]);
+        }
+
+        if ($filters['Search'] !== null){
+            $whereArray = array();
+            foreach (explode(' ', $filters['Search']) as $key => $val){
+                $whereArray[$key] = "(t.title LIKE ?$key OR t.description LIKE ?$key)";
+                $qb->setParameter($key, "%$val%");
+            }
+
+            $qb->andWhere(implode(' AND ', $whereArray));
+        }
 
         return $qb->getQuery();
     }

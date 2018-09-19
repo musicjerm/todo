@@ -122,7 +122,27 @@ class TaskController extends Controller
 
     private function authViewCheck(User $user, Task $task): bool
     {
+        // check if user is admin
+        if ($this->isGranted('ROLE_ADMIN')){
+            return true;
+        }
+
         // check if user created
-        return ($task->getUserCreated() === $user);
+        if ($task->getUserCreated() === $user){
+            return true;
+        }
+
+        // check if task is public
+        if ($task->getPublic() === true){
+            return true;
+        }
+
+        // check if user is subscribed
+        if ($task->getUserSubscribed()->contains($user)){
+            return true;
+        }
+
+        // fail auth check if none of the above conditions is met
+        return false;
     }
 }
