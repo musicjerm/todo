@@ -25,6 +25,16 @@ class UserGroupRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('ug');
 
         $qb
+            ->where('ug.userCreated = :user')
+            ->setParameter('user', $user);
+
+        if ($filters['Search'] !== null){
+            $qb
+                ->andWhere('ug.name LIKE :search')
+                ->setParameter('search', "%$filters[Search]%");
+        }
+
+        $qb
             ->orderBy($orderBy, $orderDir)
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults);

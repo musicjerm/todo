@@ -2,6 +2,7 @@
 
 namespace App\Form\CRUD;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +13,12 @@ class UserGroupType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('users');
+            ->add('users', EntityType::class, array(
+                'class' => \App\Entity\User::class,
+                'multiple' => true,
+                'required' => false,
+                'attr' => ['class' => 'select2', 'style' => 'width: 100%']
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

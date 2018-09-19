@@ -11,6 +11,11 @@ columns:
 
 key: 'id'
 
+filters:
+    -
+        name: 'Search'
+        type: 'Text'
+
 actions:
     head:
         jerm_bundle_crud_create:
