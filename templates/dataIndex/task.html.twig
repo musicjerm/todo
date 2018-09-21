@@ -1,0 +1,25 @@
+{% extends '@Jerm/Base/data_index.html.twig' %}
+
+{% block data_filters %}
+
+    <div class="col-xs-8 col-sm-5">
+        {{ form_row(filters_form.Search) }}
+    </div>
+
+    <div class="col-xs-12 col-sm-5">
+        {{ form_row(filters_form.Status) }}
+    </div>
+
+{% endblock %}
+
+{% block advanced_filters %}
+
+    <div class="col-xs-12 col-sm-4">
+        {{ form_row(filters_form.Priority) }}
+    </div>
+
+    <div class="col-xs-12 col-sm-8">
+        {{ form_row(filters_form.Tag_Category) }}
+    </div>
+
+{% endblock %}

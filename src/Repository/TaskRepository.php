@@ -27,13 +27,13 @@ class TaskRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('t');
 
         $qb
-            ->leftJoin('t.userSubscribed', 'us')
             ->orderBy($orderBy, $orderDir)
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults);
 
         if (!\in_array('ROLE_ADMIN', $user->getRoles(), true)){
             $qb
+                ->leftJoin('t.userSubscribed', 'us')
                 ->andWhere('(t.userCreated = :user OR us = :user OR t.public = :public)')
                 ->setParameters(['user' => $user, 'public' => true]);
         }
@@ -48,6 +48,47 @@ class TaskRepository extends ServiceEntityRepository
             $qb->andWhere(implode(' AND ', $whereArray));
         }
 
+        if ($filters['Status'] !== null){
+            $qb
+                ->andWhere('t.status IN (:status)')
+                ->setParameter('status', $filters['Status']);
+        }
+
+        if ($filters['Priority'] !== null){
+            $qb
+                ->andWhere('t.priority = :priority')
+                ->setParameter('priority', $filters['Priority']);
+        }
+
+        if ($filters['Tag_Category'] !== null){
+            $qb
+                ->andWhere('t.tags LIKE :tag')
+                ->setParameter('tag', "%$filters[Tag_Category]%");
+        }
+
         return $qb->getQuery();
+    }
+
+    public function findTags(User $user): array
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select('t.tags')
+            ->groupBy('t.tags');
+
+        if (!\in_array('ROLE_ADMIN', $user->getRoles(), true)){
+            $qb
+                ->leftJoin('t.userSubscribed', 'us')
+                ->andWhere('(t.userCreated = :user OR us = :user OR t.public = :public)')
+                ->setParameters(['user' => $user, 'public' => true]);
+        }
+
+        $array = array();
+        foreach ($qb->getQuery()->getArrayResult() as $tags){
+            foreach ($tags['tags'] as $tag){
+                \in_array(['tag' => $tag], $array, true) ?: $array[] = ['tag' => $tag];
+            }
+        }
+
+        return $array;
     }
 }

@@ -1,6 +1,7 @@
 entity: 'App:Task'
 role: 'ROLE_USER'
 page_name: 'Tasks'
+template: 'dataIndex/task.html.twig'
 
 columns:
     - { title: 'ID', data: 'id', sort: 't.id' }
@@ -21,9 +22,42 @@ columns:
 key: 'id'
 sortId: 7
 sortDir: 'desc'
+view: [0, 1, 4, 5, 6, 8, 9, 10, 12]
+tooltip: [-1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+
+advanced_filters: true
 
 filters:
     - { name: 'Search', type: 'Text' }
+    -
+        name: 'Status'
+        type: 'Choice'
+        array:
+            choices:
+                New: 'New'
+                Open: 'Open'
+                'Work In Progress': 'Work in Progress'
+                Closed: 'Closed'
+            multiple: true
+            attr: { class: 'select2', style: 'width: 100%' }
+            data: [ 'New', 'Open', 'Work in Progress' ]
+    -
+        name: 'Priority'
+        type: 'Choice'
+        array:
+            choices: { Minor: 'Minor', Major: 'Major', Critical: 'Critical' }
+            placeholder: 'Any'
+    -
+        name: 'Tag_Category'
+        type: 'Choice'
+        entity_group: 'tag'
+        entity_class: 'App:Task'
+        entity_query: 'findTags'
+        restrict_owner: true
+        array:
+            label: 'Tag / Category'
+            placeholder: 'Any'
+            attr: { class: 'select2', style: 'width: 100%' }
 
 actions:
     head:
