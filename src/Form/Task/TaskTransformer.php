@@ -27,13 +27,13 @@ class TaskTransformer
         }
 
         // set new values
-        $taskData->title === null ?: $task->setTitle($taskData->title);
-        $taskData->description === null ?: $task->setDescription($taskData->description);
-        $taskData->followUp === null ?: $task->setFollowUp($taskData->followUp);
-        $taskData->public === null ?: $task->setPublic($taskData->public);
-        $taskData->priority === null ?: $task->setPriority($taskData->priority);
-        $taskData->status === null ?: $task->setStatus($taskData->status);
-        $taskData->targetCompleteDate === null ?: $task->setTargetCompleteDate($taskData->targetCompleteDate);
+        $task->setTitle($taskData->title);
+        $task->setDescription($taskData->description);
+        $task->setFollowUp($taskData->followUp);
+        $task->setPublic($taskData->public);
+        $task->setPriority($taskData->priority);
+        $task->setStatus($taskData->status);
+        $task->setTargetCompleteDate($taskData->targetCompleteDate);
 
         // if user groups selected, subscribe users to task
         if ($taskData->userGroups !== null){
@@ -79,6 +79,7 @@ class TaskTransformer
         $taskData->public = $task->getPublic();
         $taskData->priority = $task->getPriority();
         $taskData->status = $task->getStatus();
+        $taskData->targetCompleteDate = $task->getTargetCompleteDate();
         $taskData->tags = implode(', ', $task->getTags());
 
         // return task data

@@ -36,8 +36,10 @@ filters:
             choices:
                 New: 'New'
                 Open: 'Open'
-                'Work In Progress': 'Work in Progress'
+                'Work in Progress': 'Work in Progress'
                 Closed: 'Closed'
+                'On Hold': 'On Hold'
+                Cancelled: 'Cancelled'
             multiple: true
             attr: { class: 'select2', style: 'width: 100%' }
             data: [ 'New', 'Open', 'Work in Progress' ]

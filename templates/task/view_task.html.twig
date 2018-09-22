@@ -3,44 +3,41 @@
 {% block content %}
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
         <h4 class="modal-title">
-            {{ task.title }}
+            Task #{{ task.id }}
+
+            {% if editable %}
+                <a class="btn btn-sm modal_redirect" data-href="{{ path('update_task', { 'id': task.id }) }}">
+                    <i class="fa fa-pencil"></i> Edit
+                </a>
+            {% endif %}
 
             <a class="btn btn-sm modal_redirect" data-href="{{ path('view_task', { 'id': task.id }) }}">
                 <i class="fa fa-refresh"></i> Refresh
             </a>
         </h4>
 
-        <span>Task #{{ task.id }}</span>
+        <small class="label {{ attribute(status_class, task.status) }}">{{ task.status }}</small>
     </div>
 
     <div class="modal-body">
-        <p>Description:</p>
-        <p class="text">{{ task.description|nl2br }}</p>
+        <div class="user-block">
+            <img class="img-circle" src="{{ asset('bundles/jerm/img/avatar.gif') }}" alt="User Avatar">
+            <span class="username">{{ task.userCreated.fullName }}</span>
+            <span class="description">Created on {{ task.dateCreatedString }}</span>
+        </div>
     </div>
 
     <div class="modal-body">
-        <p>Follow Up:</p>
-        <p>{{ task.followUp }}</p>
+        <h4 class="modal-title">{{ task.title }}</h4>
+
+        {% if task.description %}<p class="text">{{ task.description|nl2br }}</p>{% endif %}
+
+        {% if task.followUp %}<p class="text-info">Follow-up:<br>{{ task.followUp }}</p>{% endif %}
     </div>
 
-    <div class="modal-body">
-        <p>Subscribed Users:</p>
-        <ul>
-            {% for user in task.userSubscribed %}
-                <li>{{ user.email }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <div class="modal-body">
-        <p>Tags:</p>
-        <ul>
-            {% for tag in task.tags %}
-                <li>{{ tag }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    {# TODO: Subbed users, tags, comments, history, target date #}
 
     <div class="modal-footer">
         <button class="btn btn-default btn-flat pull-left" data-dismiss="modal">Close</button>
