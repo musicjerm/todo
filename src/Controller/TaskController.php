@@ -10,6 +10,7 @@ use App\Form\Task\TaskCreateType;
 use App\Form\Task\TaskTransformer;
 use App\Form\Task\TaskUpdateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -132,10 +133,19 @@ class TaskController extends Controller
             // entity manager
             $em = $this->getDoctrine()->getManager();
 
-            // TODO: check for attachment, save file
-
             // update task entity
             $taskTransformer->transform($taskData, $task);
+
+            // check for attachment, save file
+            if ($taskData->document !== null){
+                // remove old file if exists
+                $savePath = $this->getParameter('kernel.project_dir') . '/uploads/Task/' . $task->getId() . '/';
+                $fs = new Filesystem();
+                $fs->remove($savePath);
+
+                // save new file
+                $taskData->document->move($savePath, $task->getDocument());
+            }
 
             // log action
             $log = new ActionLog();
@@ -191,22 +201,34 @@ class TaskController extends Controller
             ));
         }
 
-        // set status class
-        $statusClass = array(
-            'New' => 'label-success',
-            'Open' => 'label-primary',
-            'Work in Progress' => 'label-info',
-            'Closed' => 'label-default',
-            'On Hold' => 'label-default',
-            'Cancelled' => 'label-danger'
+        // build view array
+        $viewArray = array(
+            'task' => $task,
+            'editable' => $this->authEditCheck($user, $task),
+            'target_diff_string' => null,
+            'target_diff_class' => null,
+            'target_diff_icon' => null,
+            'status_class' => array(
+                'New' => 'success',
+                'Open' => 'primary',
+                'Work in Progress' => 'info',
+                'Closed' => 'default',
+                'On Hold' => 'default',
+                'Cancelled' => 'danger'
+            )
         );
 
+        // set target complete date view properties if not null
+        if ($task->getTargetCompleteDate() !== null && \in_array($task->getStatus(), ['Open', 'Work in Progress', 'New'])){
+            $datePropertyGen = new \App\Utilities\DatePropertyGenerator($task->getDaysToTargetCompleteDate());
+
+            $viewArray['target_diff_string'] = $datePropertyGen->string;
+            $viewArray['target_diff_class'] = $datePropertyGen->color;
+            $viewArray['target_diff_icon'] = $datePropertyGen->icon;
+        }
+
         // return view to user
-        return $this->render('task/view_task.html.twig', array(
-            'task' => $task,
-            'status_class' => $statusClass,
-            'editable' => $this->authEditCheck($user, $task)
-        ));
+        return $this->render('task/view_task.html.twig', $viewArray);
     }
 
     private function authViewCheck(User $user, Task $task): bool

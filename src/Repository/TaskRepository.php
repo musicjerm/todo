@@ -48,7 +48,7 @@ class TaskRepository extends ServiceEntityRepository
             $qb->andWhere(implode(' AND ', $whereArray));
         }
 
-        if ($filters['Status'] !== null){
+        if ($filters['Status'] !== []){
             $qb
                 ->andWhere('t.status IN (:status)')
                 ->setParameter('status', $filters['Status']);
@@ -58,6 +58,12 @@ class TaskRepository extends ServiceEntityRepository
             $qb
                 ->andWhere('t.priority = :priority')
                 ->setParameter('priority', $filters['Priority']);
+        }
+
+        if ($filters['Public'] !== null){
+            $qb
+                ->andWhere('t.public = :public')
+                ->setParameter('public', $filters['Public']);
         }
 
         if ($filters['Tag_Category'] !== null){

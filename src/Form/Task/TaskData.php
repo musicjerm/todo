@@ -2,6 +2,7 @@
 
 namespace App\Form\Task;
 
+use App\Entity\User;
 use App\Entity\UserGroup;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -19,11 +20,14 @@ class TaskData
     /** @var string */
     public $description;
 
+    /** @var string */
+    public $followUp;
+
     /** @var ArrayCollection|UserGroup[] */
     public $userGroups;
 
-    /** @var string */
-    public $followUp;
+    /** @var ArrayCollection|User[] */
+    public $subbedUsers;
 
     /** @var boolean */
     public $public;

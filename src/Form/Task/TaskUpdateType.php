@@ -2,6 +2,8 @@
 
 namespace App\Form\Task;
 
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,6 +23,12 @@ class TaskUpdateType extends AbstractType
             ))
             ->add('followUp', TextareaType::class, array(
                 'required' => false
+            ))
+            ->add('subbedUsers', EntityType::class, array(
+                'class' => User::class,
+                'multiple' => true,
+                'required' => false,
+                'attr' => ['class' => 'select2', 'style' => 'width: 100%']
             ))
             ->add('priority', ChoiceType::class, array(
                 'choices' => array(

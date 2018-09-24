@@ -14,11 +14,15 @@
 
 {% block advanced_filters %}
 
-    <div class="col-xs-12 col-sm-4">
+    <div class="col-xs-7 col-sm-3">
         {{ form_row(filters_form.Priority) }}
     </div>
 
-    <div class="col-xs-12 col-sm-8">
+    <div class="col-xs-5 col-sm-3">
+        {{ form_row(filters_form.Public) }}
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
         {{ form_row(filters_form.Tag_Category) }}
     </div>
 

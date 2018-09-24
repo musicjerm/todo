@@ -21,9 +21,7 @@ class TaskTransformer
         // create new task if none passed, set values
         if ($task === null){
             $task = new Task();
-            $task
-                ->setStatus('New')
-                ->setUserCreated($this->user);
+            $task->setUserCreated($this->user);
         }
 
         // set new values
@@ -32,7 +30,7 @@ class TaskTransformer
         $task->setFollowUp($taskData->followUp);
         $task->setPublic($taskData->public);
         $task->setPriority($taskData->priority);
-        $task->setStatus($taskData->status);
+        $task->setStatus($taskData->status ?? 'New');
         $task->setTargetCompleteDate($taskData->targetCompleteDate);
 
         // if user groups selected, subscribe users to task
@@ -76,6 +74,7 @@ class TaskTransformer
         $taskData->title = $task->getTitle();
         $taskData->description = $task->getDescription();
         $taskData->followUp = $task->getFollowUp();
+        $taskData->subbedUsers = $task->getUserSubscribed();
         $taskData->public = $task->getPublic();
         $taskData->priority = $task->getPriority();
         $taskData->status = $task->getStatus();

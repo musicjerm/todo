@@ -13,6 +13,7 @@ columns:
     - { title: 'Status', data: 'status', sort: 't.status' }
     - { title: 'Tags', data: 'tagsString', sort: 't.tags' }
     - { title: 'Target Completion Date', data: 'targetCompleteDateString', sort: 't.targetCompleteDate' }
+    - { title: 'Days to Target', data: 'daysToTargetCompleteDate', sort: 't.targetCompleteDate' }
     - { title: 'Document', data: 'document', sort: 't.document' }
     - { title: 'User Created', data: 'userCreated', sort: 't.userCreated' }
     - { title: 'User Updated', data: 'userUpdated', sort: 't.userUpdated' }
@@ -20,10 +21,10 @@ columns:
     - { title: 'Date Updated', data: 'dateUpdatedString', sort: 't.dateUpdated' }
 
 key: 'id'
-sortId: 7
-sortDir: 'desc'
-view: [0, 1, 4, 5, 6, 8, 9, 10, 12]
-tooltip: [-1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+sortId: 9
+sortDir: 'asc'
+view: [0, 1, 4, 5, 6, 8, 9, 10, 11, 13]
+tooltip: [-1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 
 advanced_filters: true
 
@@ -48,6 +49,13 @@ filters:
         type: 'Choice'
         array:
             choices: { Minor: 'Minor', Major: 'Major', Critical: 'Critical' }
+            placeholder: 'Any'
+    -
+        name: 'Public'
+        type: 'Choice'
+        array:
+            label: 'Is Public'
+            choices: { Yes: true, No: false }
             placeholder: 'Any'
     -
         name: 'Tag_Category'

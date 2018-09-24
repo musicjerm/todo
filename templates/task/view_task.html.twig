@@ -18,14 +18,32 @@
             </a>
         </h4>
 
-        <small class="label {{ attribute(status_class, task.status) }}">{{ task.status }}</small>
+        <small class="label label-{{ attribute(status_class, task.status) }}">{{ task.status }}</small>
+
+        {% if task.public == true %}
+            <small class="label label-success">Public</small>
+        {% endif %}
+
+        {% for tag in task.tags %}
+            <small class="label label-default">{{ tag }}</small>
+        {% endfor %}
     </div>
 
     <div class="modal-body">
-        <div class="user-block">
-            <img class="img-circle" src="{{ asset('bundles/jerm/img/avatar.gif') }}" alt="User Avatar">
-            <span class="username">{{ task.userCreated.fullName }}</span>
-            <span class="description">Created on {{ task.dateCreatedString }}</span>
+        <div class="row">
+            <div class="col-xs-6 user-block">
+                <img class="img-circle" src="{{ asset('bundles/jerm/img/avatar.gif') }}" alt="User Avatar">
+                <span class="username">{{ task.userCreated.fullName }}</span>
+                <span class="description">Created on {{ task.dateCreatedString }}</span>
+            </div>
+
+            <div class="col-xs-6">
+                {% if task.document is not null %}
+                    <a class="pull-right" href="{{ path('jerm_bundle_get_file', { 'entity': 'task', 'id': task.id }) }}">
+                        <i class="fa fa-download"></i> {{ task.document }}
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 
@@ -34,10 +52,25 @@
 
         {% if task.description %}<p class="text">{{ task.description|nl2br }}</p>{% endif %}
 
-        {% if task.followUp %}<p class="text-info">Follow-up:<br>{{ task.followUp }}</p>{% endif %}
+        {% if task.followUp %}
+            <div class="panel panel-{{ attribute(status_class, task.status) }}">
+                <div class="panel-body"><u>Follow-up</u><br>{{ task.followUp|nl2br }}</div>
+            </div>
+        {% endif %}
+
+        {% if target_diff_string is not null %}
+            <p class="text-{{ target_diff_class }}">
+                <i class="fa fa-{{ target_diff_icon }}"></i>
+                {{ target_diff_string }} ({{ task.targetCompleteDateString }})
+            </p>
+        {% endif %}
+
+        {% if task.dateCreated != task.dateUpdated %}
+            <p class="text-muted">Last updated by {{ task.userUpdated.fullName }} on {{ task.dateUpdatedString }}</p>
+        {% endif %}
     </div>
 
-    {# TODO: Subbed users, tags, comments, history, target date #}
+    {# TODO: attachment, subbed users / sub-un-sub, tags, comments, history, target date #}
 
     <div class="modal-footer">
         <button class="btn btn-default btn-flat pull-left" data-dismiss="modal">Close</button>
@@ -45,5 +78,6 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('app/js/task_view.js') }}"></script>
     <script src="{{ asset('app/js/modal_redirect.js') }}"></script>
 {% endblock %}

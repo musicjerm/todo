@@ -185,6 +185,21 @@ class Task
         return $this->getTargetCompleteDate() === null ? null : $this->getTargetCompleteDate()->format('Y-m-d');
     }
 
+    public function getDaysToTargetCompleteDate(): ?int
+    {
+        if ($this->targetCompleteDate === null){
+            return null;
+        }
+
+        $diff = (new \DateTime('today'))->diff($this->targetCompleteDate);
+
+        if ($diff->invert === 1){
+            return $diff->days * -1;
+        }
+
+        return $diff->days;
+    }
+
     public function setTargetCompleteDate(?\DateTime $targetCompleteDate): self
     {
         $this->targetCompleteDate = $targetCompleteDate;
@@ -264,4 +279,7 @@ class Task
         $this->dateUpdated = new \DateTime();
         return $this;
     }
+
+    // only needed for jermbundle CRUD delete method
+    public function getFile(): void{}
 }
