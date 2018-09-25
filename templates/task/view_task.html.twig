@@ -20,7 +20,7 @@
 
         <small class="label label-{{ attribute(status_class, task.status) }}">{{ task.status }}</small>
 
-        {% if task.public == true %}
+        {% if task.public %}
             <small class="label label-success">Public</small>
         {% endif %}
 
@@ -42,6 +42,14 @@
                     <a class="pull-right" href="{{ path('jerm_bundle_get_file', { 'entity': 'task', 'id': task.id }) }}">
                         <i class="fa fa-download"></i> {{ task.document }}
                     </a>
+                    {% if editable %}
+                        <br>
+                        <a class="btn btn-sm text-red pull-right modal_redirect_confirm"
+                           data-href="{{ path('task_delete_doc', { 'id': task.id }) }}"
+                           data-message="Are you sure you want to remove {{ task.document }}">
+                            <i class="fa fa-times-circle"></i> Remove
+                        </a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -79,5 +87,4 @@
 
 {% block javascripts %}
     <script src="{{ asset('app/js/task_view.js') }}"></script>
-    <script src="{{ asset('app/js/modal_redirect.js') }}"></script>
 {% endblock %}

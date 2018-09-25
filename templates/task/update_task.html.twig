@@ -1,0 +1,16 @@
+{% extends '@Jerm/Modal/form.html.twig' %}
+
+{% block form %}
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.followUp) }}
+    {{ form_row(form.public) }}
+    {{ form_row(form.subbedUsers) }}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">{{ form_row(form.priority) }}</div>
+        <div class="col-xs-12 col-sm-6">{{ form_row(form.status) }}</div>
+    </div>
+    {{ form_row(form.targetCompleteDate) }}
+    {{ form_row(form.tags) }}
+    {{ form_row(form.document) }}
+{% endblock %}

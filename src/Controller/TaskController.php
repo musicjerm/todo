@@ -163,7 +163,7 @@ class TaskController extends Controller
         }
 
         // return form to user
-        return $this->render('@Jerm/Modal/form.html.twig', array(
+        return $this->render('task/update_task.html.twig', array(
             'header' => "Update Task #$id",
             'form' => $form->createView(),
             'previous_path' => $this->generateUrl('view_task', ['id' => $id])
@@ -229,6 +229,58 @@ class TaskController extends Controller
 
         // return view to user
         return $this->render('task/view_task.html.twig', $viewArray);
+    }
+
+    /**
+     * @Route("/task/delete_doc/{id}", name="task_delete_doc")
+     * @param UserInterface|User $user
+     * @param string $id
+     * @return Response
+     */
+    public function removeDocument(UserInterface $user, string $id): Response
+    {
+        // set repo and query task
+        $taskRepo = $this->getDoctrine()->getRepository('App:Task');
+        /** @var Task $task */
+        $task = $taskRepo->find($id);
+
+        // make sure task exists
+        if ($task === null){
+            return $this->render('@Jerm/Modal/notification.html.twig', array(
+                'message' => "Task $id does not exist.",
+                'type' => 'error',
+                'modal_size' => 'modal-sm',
+                'refresh' => true
+            ));
+        }
+
+        // make sure user is authorized
+        if ($this->authEditCheck($user, $task) === false){
+            return $this->render('@Jerm/Modal/notification.html.twig', array(
+                'message' => 'You do not have permission to perform this task.',
+                'type' => 'error'
+            ));
+        }
+
+        // remove document/files
+        $savePath = $this->getParameter('kernel.project_dir') . '/uploads/Task/' . $task->getId() . '/';
+        $fs = new Filesystem();
+        $fs->remove($savePath);
+
+        // log action
+        $log = new ActionLog();
+        $log
+            ->setAction('Delete Task Document')
+            ->setDetail($task->getDocument() . ' removed from Task #'. $task->getId())
+            ->setUserCreated($user);
+
+        // set document null, persist log, flush db
+        $task->setDocument(null);
+        $this->getDoctrine()->getManager()->persist($log);
+        $this->getDoctrine()->getManager()->flush();
+
+        // return user to view
+        return $this->redirectToRoute('view_task', ['id' => $id]);
     }
 
     private function authViewCheck(User $user, Task $task): bool

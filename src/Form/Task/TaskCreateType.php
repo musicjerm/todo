@@ -33,6 +33,7 @@ class TaskCreateType extends AbstractType
             ->add('description', TextareaType::class, array(
                 'required' => false
             ))
+            ->add('public', CheckboxType::class, ['required' => false])
             ->add('userGroups', EntityType::class, array(
                 'class' => \App\Entity\UserGroup::class,
                 'query_builder' => function(EntityRepository $er){
@@ -51,7 +52,6 @@ class TaskCreateType extends AbstractType
                     'Critical' => 'Critical'
                 )
             ))
-            ->add('public', CheckboxType::class, ['required' => false])
             ->add('targetCompleteDate', DateType::class, array(
                 'label' => 'Target Completion Date',
                 'required' => false,
