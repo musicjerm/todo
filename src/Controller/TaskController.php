@@ -69,13 +69,8 @@ class TaskController extends Controller
             $em->persist($log);
             $em->flush();
 
-            // return success notification to user
-            return $this->render('@Jerm/Modal/notification.html.twig', array(
-                'message' => 'New task created!',
-                'type' => 'success',
-                'refresh' => true,
-                'fade' => true
-            ));
+            // return to view
+            return $this->redirectToRoute('view_task', ['id' => $newTask->getId()]);
         }
 
         // return form to user
@@ -205,6 +200,7 @@ class TaskController extends Controller
         $viewArray = array(
             'task' => $task,
             'editable' => $this->authEditCheck($user, $task),
+            'subscribed' => $task->getUserSubscribed()->contains($user),
             'target_diff_string' => null,
             'target_diff_class' => null,
             'target_diff_icon' => null,
@@ -278,6 +274,71 @@ class TaskController extends Controller
         $task->setDocument(null);
         $this->getDoctrine()->getManager()->persist($log);
         $this->getDoctrine()->getManager()->flush();
+
+        // return user to view
+        return $this->redirectToRoute('view_task', ['id' => $id]);
+    }
+
+    /**
+     * @Route("/task/subscribe/{id}", name="subscribe_task")
+     * @param UserInterface|User $user
+     * @param string $id
+     * @return Response
+     */
+    public function subscribeAction(UserInterface $user, string $id): Response
+    {
+        // set repo and query task
+        $taskRepo = $this->getDoctrine()->getRepository('App:Task');
+        /** @var Task $task */
+        $task = $taskRepo->find($id);
+
+        // make sure task exists
+        if ($task === null){
+            return $this->render('@Jerm/Modal/notification.html.twig', array(
+                'message' => "Task $id does not exist.",
+                'type' => 'error',
+                'modal_size' => 'modal-sm',
+                'refresh' => true
+            ));
+        }
+
+        // make sure user is authorized
+        if ($this->authViewCheck($user, $task) === false){
+            return $this->render('@Jerm/Modal/notification.html.twig', array(
+                'message' => 'You do not have permission to perform this task.',
+                'type' => 'error'
+            ));
+        }
+
+        // subscribe or unsubscribe user
+        if ($task->getUserSubscribed()->contains($user)){
+            $task->getUserSubscribed()->removeElement($user);
+            $action = 'Un-Subscribed';
+        }else{
+            $task->getUserSubscribed()->add($user);
+            $action = 'Subscribed';
+        }
+
+        // log action
+        $log = new ActionLog();
+        $log
+            ->setAction('Toggle Task Sub')
+            ->setDetail("$action to Task #$id")
+            ->setUserCreated($user);
+
+        // persist log, flush db
+        $this->getDoctrine()->getManager()->persist($log);
+        $this->getDoctrine()->getManager()->flush();
+
+        // return notification if user no longer has visibility
+        if ($this->authViewCheck($user, $task) === false){
+            return $this->render('@Jerm/Modal/notification.html.twig', array(
+                'message' => 'Unsubscribed...',
+                'modal_size' => 'modal-sm',
+                'refresh' => true,
+                'fade' => true
+            ));
+        }
 
         // return user to view
         return $this->redirectToRoute('view_task', ['id' => $id]);

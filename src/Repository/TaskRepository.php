@@ -34,8 +34,18 @@ class TaskRepository extends ServiceEntityRepository
         if (!\in_array('ROLE_ADMIN', $user->getRoles(), true)){
             $qb
                 ->leftJoin('t.userSubscribed', 'us')
-                ->andWhere('(t.userCreated = :user OR us = :user OR t.public = :public)')
-                ->setParameters(['user' => $user, 'public' => true]);
+                ->groupBy('t.id')
+                ->andWhere('t.userCreated = :user OR us = :user OR t.public = :publicNotAdmin')
+                ->setParameters(array(
+                    'user' => $user,
+                    'publicNotAdmin' => true
+                ));
+        }
+
+        if ($filters['Public'] !== null){
+            $qb
+                ->andWhere('t.public = :public')
+                ->setParameter('public', $filters['Public']);
         }
 
         if ($filters['Search'] !== null){
@@ -58,12 +68,6 @@ class TaskRepository extends ServiceEntityRepository
             $qb
                 ->andWhere('t.priority = :priority')
                 ->setParameter('priority', $filters['Priority']);
-        }
-
-        if ($filters['Public'] !== null){
-            $qb
-                ->andWhere('t.public = :public')
-                ->setParameter('public', $filters['Public']);
         }
 
         if ($filters['Tag_Category'] !== null){

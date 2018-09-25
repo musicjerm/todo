@@ -13,6 +13,18 @@
                 </a>
             {% endif %}
 
+            {% if subscribed %}
+                <a class="btn btn-sm modal_redirect"
+                   data-href="{{ path('subscribe_task', { 'id': task.id }) }}">
+                    <i class="fa fa-check-square-o"></i> Subscribed
+                </a>
+            {% else %}
+                <a class="btn btn-sm modal_redirect"
+                   data-href="{{ path('subscribe_task', { 'id': task.id }) }}">
+                    <i class="fa fa-square-o"></i> Subscribe
+                </a>
+            {% endif %}
+
             <a class="btn btn-sm modal_redirect" data-href="{{ path('view_task', { 'id': task.id }) }}">
                 <i class="fa fa-refresh"></i> Refresh
             </a>
@@ -31,13 +43,13 @@
 
     <div class="modal-body">
         <div class="row">
-            <div class="col-xs-6 user-block">
+            <div class="col-xs-12 col-sm-6 user-block">
                 <img class="img-circle" src="{{ asset('bundles/jerm/img/avatar.gif') }}" alt="User Avatar">
                 <span class="username">{{ task.userCreated.fullName }}</span>
                 <span class="description">Created on {{ task.dateCreatedString }}</span>
             </div>
 
-            <div class="col-xs-6">
+            <div class="col-xs-12 col-sm-6">
                 {% if task.document is not null %}
                     <a class="pull-right" href="{{ path('jerm_bundle_get_file', { 'entity': 'task', 'id': task.id }) }}">
                         <i class="fa fa-download"></i> {{ task.document }}
