@@ -50,7 +50,7 @@ class TaskTransformer
         if ($taskData->tags !== null){
             $tagArray = array();
             foreach (\explode(',', $taskData->tags) as $tag){
-                $tagArray[] = trim($tag);
+                trim($tag) === '' ?: $tagArray[] = trim($tag);
             }
             $task->setTags($tagArray);
         }
