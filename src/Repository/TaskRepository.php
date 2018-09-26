@@ -99,6 +99,10 @@ class TaskRepository extends ServiceEntityRepository
             }
         }
 
+        usort($array, function($a, $b){
+            return $a['tag'] <=> $b['tag'];
+        });
+
         return $array;
     }
 }
