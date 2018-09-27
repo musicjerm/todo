@@ -1,0 +1,24 @@
+{% form_theme note_form '@Jerm/Form/bootstrap_extended_layout.html.twig' %}
+
+<div id="note_view">
+    {{ form_start(note_form, { attr: { id: 'note_form' } }) }}
+
+    {{ form_row(note_form.comment) }}
+
+    {{ form_end(note_form) }}
+
+    {% for note in notes %}
+        <div class="box-comment">
+            <img class="img-circle img-sm" src="{{ asset('bundles/jerm/img/avatar.gif') }}">
+            <div class="comment-text">
+                <span class="username">
+                    {{ note.userCreated.fullName }}
+                    <span class="text-muted pull-right">{{ note.dateCreated|date('Y-m-d @ h:i a') }}</span>
+                </span>
+                <p>{{ note.comment }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script src="{{ asset('app/js/note_view.js') }}"></script>

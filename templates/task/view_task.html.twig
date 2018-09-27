@@ -90,6 +90,10 @@
         {% endif %}
     </div>
 
+    <div class="modal-body box-comments">
+        {{ render(controller('App\\Controller\\NoteController::createAction', { 'entity': 'App:Task', 'id': task.id })) }}
+    </div>
+
     {# TODO: attachment, subbed users / sub-un-sub, tags, comments, history, target date #}
 
     <div class="modal-footer">
