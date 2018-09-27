@@ -5,7 +5,8 @@ namespace App\Controller;
 use App\Entity\ActionLog;
 use App\Entity\Note;
 use App\Entity\User;
-use App\Form\Note\NoteType;
+use App\Form\Note\NoteCreateType;
+use App\Form\Note\NoteUpdateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,14 +31,14 @@ class NoteController extends Controller
 
         // make sure repo is correct
         if ($entityRepo === null){
-            return new Response('Comment System Error');
+            return new Response('Comment system error - incorrect repository.');
         }
 
         $workingEntity = $entityRepo->find($id);
 
         // make sure entity exists
         if ($workingEntity === null){
-            return new Response('Comment System Error');
+            return new Response('Comment system error - missing entity.');
         }
 
         // query existing notes
@@ -56,7 +57,7 @@ class NoteController extends Controller
             ->setUserUpdated($user);
 
         // build form
-        $form = $this->createForm(NoteType::class, $note, array(
+        $form = $this->createForm(NoteCreateType::class, $note, array(
             'action' => $this->generateUrl('note_create', ['entity' => $entity, 'id' => $id])
         ));
 
@@ -69,7 +70,7 @@ class NoteController extends Controller
             // log action
             $log = new ActionLog();
             $log
-                ->setAction('Comment')
+                ->setAction('Comment Create')
                 ->setDetail("Left for $entity with ID: $id")
                 ->setUserCreated($user);
 
@@ -86,5 +87,100 @@ class NoteController extends Controller
             'note_form' => $form->createView(),
             'notes' => $existingNotes
         ));
+    }
+
+    /**
+     * @Route("/note/update/{id}", name="note_update")
+     * @param Request $request
+     * @param UserInterface|User $user
+     * @param string $id
+     * @return Response
+     */
+    public function updateAction(Request $request, UserInterface $user, string $id): Response
+    {
+        // set repo, query note
+        $noteRepo = $this->getDoctrine()->getRepository('App:Note');
+        /** @var Note $note */
+        $note = $noteRepo->find($id);
+
+        // make sure note exists
+        if ($note === null){
+            return new Response('Comment system error - missing.');
+        }
+
+        // make sure user created
+        if ($note->getUserCreated() !== $user){
+            return new Response('Comment system error - wrong user.');
+        }
+
+        // build form
+        $form = $this->createForm(NoteUpdateType::class, $note, array(
+            'action' => $this->generateUrl('note_update', ['id' => $id])
+        ));
+
+        // process form
+        $form->handleRequest($request);
+
+        // check form
+        if ($form->isSubmitted() && $form->isValid()){
+
+            // log action
+            $log = new ActionLog();
+            $log
+                ->setAction('Comment Update')
+                ->setDetail("Comment $id updated")
+                ->setUserCreated($user);
+
+            // persist log, flush db
+            $this->getDoctrine()->getManager()->persist($log);
+            $this->getDoctrine()->getManager()->flush();
+
+            // return comment
+            return new Response('<p id="note_text_' . $note->getId() . '">' . $note->getComment() . '</p>');
+        }
+
+        // return form
+        return $this->render('note/note_update.html.twig', array(
+            'note_update' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/note/delete/{id}", name="note_delete")
+     * @param UserInterface|User $user
+     * @param string $id
+     * @return Response
+     */
+    public function deleteAction(UserInterface $user, string $id): Response
+    {
+        // set repo, query note
+        $noteRepo = $this->getDoctrine()->getRepository('App:Note');
+        /** @var Note $note */
+        $note = $noteRepo->find($id);
+
+        // make sure note exists
+        if ($note === null){
+            return new Response('Comment system error - missing.');
+        }
+
+        // make sure user created
+        if ($note->getUserCreated() !== $user){
+            return new Response('Comment system error - wrong user.');
+        }
+
+        // log action
+        $log = new ActionLog();
+        $log
+            ->setAction('Comment Delete')
+            ->setDetail("Comment $id removed")
+            ->setUserCreated($user);
+
+        // persist log, remove note, flush db
+        $this->getDoctrine()->getManager()->persist($log);
+        $this->getDoctrine()->getManager()->remove($note);
+        $this->getDoctrine()->getManager()->flush();
+
+        // return message to user
+        return new Response('Comment deleted');
     }
 }

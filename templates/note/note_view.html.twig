@@ -8,15 +8,31 @@
     {{ form_end(note_form) }}
 
     {% for note in notes %}
-        <div class="box-comment">
+        <div id="comment_{{ note.id }}" class="box-comment">
             <img class="img-circle img-sm" src="{{ asset('bundles/jerm/img/avatar.gif') }}">
             <div class="comment-text">
                 <span class="username">
                     {{ note.userCreated.fullName }}
-                    <span class="text-muted pull-right">{{ note.dateCreated|date('Y-m-d @ h:i a') }}</span>
+                    <span class="text-muted pull-right">
+                        {{ note.dateCreated|date('Y-m-d @ h:i a') }}
+                        {% if note.dateCreated != note.dateUpdated %}
+                            - Edited {{ note.dateUpdated|date('Y-m-d @ h:i a') }}
+                        {% endif %}
+                    </span>
                 </span>
-                <p>{{ note.comment }}</p>
+                <p id="note_text_{{ note.id }}">{{ note.comment|striptags }}</p>
             </div>
+            {% if note.userCreated == app.getUser %}
+                <a id="note_edit_{{ note.id }}" class="btn btn-xs text-muted edit_note_btn">
+                    <i class="fa fa-pencil"></i>
+                    Edit
+                </a>
+
+                <a id="note_delete_{{ note.id }}" class="btn btn-xs text-muted delete_note_btn">
+                    <i class="fa fa-times-circle"></i>
+                    Delete
+                </a>
+            {% endif %}
         </div>
     {% endfor %}
 </div>

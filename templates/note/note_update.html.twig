@@ -1,0 +1,7 @@
+{% form_theme note_update '@Jerm/Form/bootstrap_extended_layout.html.twig' %}
+
+{{ form_start(note_update, { attr: { id: 'note_update' } }) }}
+
+{{ form_row(note_update.comment) }}
+
+{{ form_end(note_update) }}

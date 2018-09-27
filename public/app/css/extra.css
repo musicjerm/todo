@@ -1,0 +1,7 @@
+.edit_note_btn, .delete_note_btn {
+    visibility: hidden;
+}
+
+.box-comment:hover > .edit_note_btn, .box-comment:hover > .delete_note_btn {
+    visibility: visible;
+}

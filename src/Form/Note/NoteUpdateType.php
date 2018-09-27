@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NoteType extends AbstractType
+class NoteUpdateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -18,7 +18,6 @@ class NoteType extends AbstractType
             ->add('entityId', HiddenType::class)
             ->add('comment', TextType::class, array(
                 'label' => false,
-                'addon' => 'fa-comment',
                 'attr' => ['placeholder' => 'Leave a comment']
             ));
     }
