@@ -55,6 +55,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: jermbundle.importer_import, method: onImport }
 
+    # form extensions
+    App\Form\Extension\AddonTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\TextType }
+
     # custom DTO unique entity validator
     musicjerm_jerm.unique_dto_validator:
         class: Musicjerm\Bundle\JermBundle\Validator\Constraints\UniqueDTOValidator
