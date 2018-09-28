@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends Controller
@@ -11,8 +12,8 @@ class HomeController extends Controller
     /**
      * @Route("/", name="home")
      */
-    public function indexAction()
+    public function indexAction(): Response
     {
-        return $this->render('@Jerm/Base/index.html.twig');
+        return $this->render('home/index.html.twig');
     }
 }
