@@ -13,14 +13,6 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('@JermBundle/Base/index.html.twig');
-    }
-
-    /**
-     * @Route("/profile", name="profile")
-     */
-    public function profileAction()
-    {
-        return $this->render('@JermBundle/Base/index.html.twig');
+        return $this->render('@Jerm/Base/index.html.twig');
     }
 }

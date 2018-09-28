@@ -56,6 +56,11 @@ class User extends BaseUser
     private $isActive;
 
     /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $profilePic;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $dateCreated;
@@ -113,6 +118,17 @@ class User extends BaseUser
     {
         $this->isActive = $isActive;
 
+        return $this;
+    }
+
+    public function getProfilePic(): ?string
+    {
+        return $this->profilePic;
+    }
+
+    public function setProfilePic(?string $profilePic): self
+    {
+        $this->profilePic = $profilePic;
         return $this;
     }
 
@@ -193,5 +209,6 @@ class User extends BaseUser
         $dto->password === null ?: $this->password = password_hash($dto->password, PASSWORD_BCRYPT);
         $this->roles = [$dto->roles];
         $this->isActive = $dto->isActive;
+        $dto->profilePic === null ?: $this->profilePic = $this->getId() . '.' . $dto->profilePic->guessExtension();
     }
 }

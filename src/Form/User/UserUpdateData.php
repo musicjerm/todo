@@ -3,6 +3,7 @@
 namespace App\Form\User;
 
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Musicjerm\Bundle\JermBundle\Validator\Constraints as AppAssert;
 
@@ -64,6 +65,16 @@ class UserUpdateData
 
     /** @var boolean */
     public $isActive;
+
+    /**
+     * @var UploadedFile
+     * @Assert\File(
+     *     maxSize="5M",
+     *     mimeTypes = {"image/jpeg", "image/png", "image/gif"},
+     *     mimeTypesMessage = "Please submit a valid image file"
+     * )
+     */
+    public $profilePic;
 
     public function __toString()
     {
