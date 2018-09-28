@@ -74,11 +74,11 @@
     <div class="modal-body">
         <h4 class="modal-title">{{ task.title }}</h4>
 
-        {% if task.description %}<p class="text">{{ task.description|nl2br }}</p>{% endif %}
+        {% if task.description %}<p class="text">{{ task.description|raw|nl2br }}</p>{% endif %}
 
         {% if task.followUp %}
             <div class="panel panel-{{ attribute(status_class, task.status) }}">
-                <div class="panel-body"><u>Follow-up</u><br>{{ task.followUp|nl2br }}</div>
+                <div class="panel-body"><u>Follow-up</u><br>{{ task.followUp|raw|nl2br }}</div>
             </div>
         {% endif %}
 
@@ -97,8 +97,6 @@
     <div class="modal-body box-comments">
         {{ render(controller('App\\Controller\\NoteController::createAction', { 'entity': 'App:Task', 'id': task.id })) }}
     </div>
-
-    {# TODO: attachment, subbed users / sub-un-sub, tags, comments, history, target date #}
 
     <div class="modal-footer">
         <button class="btn btn-default btn-flat pull-left" data-dismiss="modal">Close</button>
