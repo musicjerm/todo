@@ -78,7 +78,7 @@
 
         {% if task.followUp %}
             <div class="panel panel-{{ attribute(status_class, task.status) }}">
-                <div class="panel-body"><u>Follow-up</u><br>{{ task.followUp|raw|nl2br }}</div>
+                <div class="panel-body"><br>{{ task.followUp|raw|nl2br }}</div>
             </div>
         {% endif %}
 
