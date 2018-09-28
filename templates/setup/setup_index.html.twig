@@ -1,0 +1,27 @@
+{% extends '@Jerm/Base/index.html.twig' %}
+
+{% form_theme form '@Jerm/Form/bootstrap_extended_layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="box">
+                {{ form_start(form) }}
+
+                <div class="box-header with-border">
+                    <h4 class="box-title">Create new Admin</h4>
+                </div>
+
+                <div class="box-body">
+                    {{ form_widget(form) }}
+                </div>
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-flat btn-success">Submit</button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
