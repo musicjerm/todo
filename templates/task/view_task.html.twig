@@ -44,7 +44,11 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-xs-12 col-sm-6 user-block">
-                <img class="img-circle" src="{{ asset('bundles/jerm/img/avatar.gif') }}" alt="User Avatar">
+                {% if task.userCreated.profilePic is not null %}
+                    <img class="img-circle" src="{{ asset('app/img/userProfile/' ~ task.userCreated.profilePic) }}">
+                {% else %}
+                    <img class="img-circle" src="{{ asset('bundles/jerm/img/avatar.gif') }}">
+                {% endif %}
                 <span class="username">{{ task.userCreated.fullName }}</span>
                 <span class="description">Created on {{ task.dateCreatedString }}</span>
             </div>

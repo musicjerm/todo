@@ -9,7 +9,11 @@
 
     {% for note in notes %}
         <div id="comment_{{ note.id }}" class="box-comment">
-            <img class="img-circle img-sm" src="{{ asset('bundles/jerm/img/avatar.gif') }}">
+            {% if note.userCreated.profilePic is not null %}
+                <img class="img-circle img-sm" src="{{ asset('app/img/userProfile/' ~ note.userCreated.profilePic) }}">
+            {% else %}
+                <img class="img-circle img-sm" src="{{ asset('bundles/jerm/img/avatar.gif') }}">
+            {% endif %}
             <div class="comment-text">
                 <span class="username">
                     {{ note.userCreated.fullName }}
