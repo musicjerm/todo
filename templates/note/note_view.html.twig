@@ -1,20 +1,25 @@
 {% form_theme note_form '@Jerm/Form/bootstrap_extended_layout.html.twig' %}
 
-<div id="note_view">
-    {{ form_start(note_form, { attr: { id: 'note_form' } }) }}
+{% if lock == false or notes|length > 0 %}
+    <div class="modal-body box-comments">
+        {% if lock == false %}
+            {{ form_start(note_form, { attr: { id: 'note_form' } }) }}
+            {{ form_row(note_form.comment) }}
+            {{ form_end(note_form) }}
+        {% endif %}
 
-    {{ form_row(note_form.comment) }}
+        {% if notes|length > 0 %}
+            <div class="box-comment">Comments <i class="fa fa-comments-o"></i></div>
+        {% endif %}
 
-    {{ form_end(note_form) }}
-
-    {% for note in notes %}
-        <div id="comment_{{ note.id }}" class="box-comment">
-            {% if note.userCreated.profilePic is not null %}
-                <img class="img-circle img-sm" src="{{ asset('app/img/userProfile/' ~ note.userCreated.profilePic) }}">
-            {% else %}
-                <img class="img-circle img-sm" src="{{ asset('bundles/jerm/img/avatar.gif') }}">
-            {% endif %}
-            <div class="comment-text">
+        {% for note in notes %}
+            <div id="comment_{{ note.id }}" class="box-comment">
+                {% if note.userCreated.profilePic is not null %}
+                    <img class="img-circle img-sm" src="{{ asset('app/img/userProfile/' ~ note.userCreated.profilePic) }}">
+                {% else %}
+                    <img class="img-circle img-sm" src="{{ asset('bundles/jerm/img/avatar.gif') }}">
+                {% endif %}
+                <div class="comment-text">
                 <span class="username">
                     {{ note.userCreated.fullName }}
                     <span class="text-muted pull-right">
@@ -24,21 +29,22 @@
                         {% endif %}
                     </span>
                 </span>
-                <p id="note_text_{{ note.id }}">{{ note.comment|striptags }}</p>
-            </div>
-            {% if lock == false and note.userCreated == app.getUser %}
-                <a id="note_edit_{{ note.id }}" class="btn btn-xs text-muted edit_note_btn">
-                    <i class="fa fa-pencil"></i>
-                    Edit
-                </a>
+                    <p id="note_text_{{ note.id }}">{{ note.comment|striptags }}</p>
+                </div>
+                {% if lock == false and note.userCreated == app.getUser %}
+                    <a id="note_edit_{{ note.id }}" class="btn btn-xs text-muted edit_note_btn">
+                        <i class="fa fa-pencil"></i>
+                        Edit
+                    </a>
 
-                <a id="note_delete_{{ note.id }}" class="btn btn-xs text-muted delete_note_btn">
-                    <i class="fa fa-times-circle"></i>
-                    Delete
-                </a>
-            {% endif %}
-        </div>
-    {% endfor %}
-</div>
+                    <a id="note_delete_{{ note.id }}" class="btn btn-xs text-muted delete_note_btn">
+                        <i class="fa fa-times-circle"></i>
+                        Delete
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
 <script src="{{ asset('app/js/note_view.js') }}"></script>
