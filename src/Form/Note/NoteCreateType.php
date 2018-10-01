@@ -15,16 +15,28 @@ class NoteCreateType extends AbstractType
     {
         $builder
             ->add('entityName', HiddenType::class)
-            ->add('entityId', HiddenType::class)
-            ->add('comment', TextType::class, array(
-                'label' => false,
-                'addon' => 'fa-comment',
-                'attr' => ['placeholder' => 'Leave a comment']
-            ));
+            ->add('entityId', HiddenType::class);
+
+        if ($options['lock'] === true){
+            $builder
+                ->add('comment', TextType::class, array(
+                    'label' => false,
+                    'addon' => 'fa-comment',
+                    'attr' => ['placeholder' => 'Leave a comment', 'disabled' => 'disabled']
+                ));
+        }else{
+            $builder
+                ->add('comment', TextType::class, array(
+                    'label' => false,
+                    'addon' => 'fa-comment',
+                    'attr' => ['placeholder' => 'Leave a comment']
+                ));
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', Note::class);
+        $resolver->setDefault('lock', null);
     }
 }

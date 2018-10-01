@@ -16,14 +16,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class NoteController extends Controller
 {
     /**
-     * @Route("/note/create/{entity}/{id}", name="note_create")
+     * @Route("/note/create/{entity}/{id}/{lock}", name="note_create")
      * @param Request $request
      * @param UserInterface|User $user
      * @param string $entity
      * @param string $id
+     * @param bool $lock
      * @return Response
      */
-    public function createAction(Request $request, UserInterface $user, string $entity, string $id): Response
+    public function createAction(Request $request, UserInterface $user, string $entity, string $id, bool $lock = false): Response
     {
         // set repo, query entity
         $entityRepo = $this->getDoctrine()->getRepository($entity);
@@ -58,7 +59,8 @@ class NoteController extends Controller
 
         // build form
         $form = $this->createForm(NoteCreateType::class, $note, array(
-            'action' => $this->generateUrl('note_create', ['entity' => $entity, 'id' => $id])
+            'action' => $this->generateUrl('note_create', ['entity' => $entity, 'id' => $id]),
+            'lock' => $lock
         ));
 
         // process form
@@ -85,7 +87,8 @@ class NoteController extends Controller
 
         return $this->render('note/note_view.html.twig', array(
             'note_form' => $form->createView(),
-            'notes' => $existingNotes
+            'notes' => $existingNotes,
+            'lock' => $lock
         ));
     }
 

@@ -26,7 +26,7 @@
                 </span>
                 <p id="note_text_{{ note.id }}">{{ note.comment|striptags }}</p>
             </div>
-            {% if note.userCreated == app.getUser %}
+            {% if lock == false and note.userCreated == app.getUser %}
                 <a id="note_edit_{{ note.id }}" class="btn btn-xs text-muted edit_note_btn">
                     <i class="fa fa-pencil"></i>
                     Edit
