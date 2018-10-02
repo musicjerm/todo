@@ -95,7 +95,7 @@
     </div>
 
     <div id="note_view">
-        {{ render(controller('App\\Controller\\NoteController::createAction', { 'entity': 'App:Task', 'id': task.id, 'lock': false })) }}
+        {{ render(controller('App\\Controller\\NoteController::createAction', { 'entity': 'App:Task'|url_encode, 'id': task.id, 'lock': false })) }}
     </div>
 
     <div class="modal-footer">

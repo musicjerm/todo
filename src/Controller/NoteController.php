@@ -27,7 +27,7 @@ class NoteController extends Controller
     public function createAction(Request $request, UserInterface $user, string $entity, string $id, bool $lock = false): Response
     {
         // set repo, query entity
-        $entityRepo = $this->getDoctrine()->getRepository($entity);
+        $entityRepo = $this->getDoctrine()->getRepository(urldecode($entity));
         $noteRepo = $this->getDoctrine()->getRepository('App:Note');
 
         // make sure repo is correct
@@ -45,14 +45,14 @@ class NoteController extends Controller
         // query existing notes
         /** @var Note[] $existingNotes */
         $existingNotes = $noteRepo->findBy(array(
-            'entityName' => $entity,
+            'entityName' => urldecode($entity),
             'entityId' => $id
         ), ['id' => 'DESC']);
 
         // create new note object
         $note = new Note();
         $note
-            ->setEntityName($entity)
+            ->setEntityName(urldecode($entity))
             ->setEntityId($id)
             ->setUserCreated($user)
             ->setUserUpdated($user);
@@ -73,7 +73,7 @@ class NoteController extends Controller
             $log = new ActionLog();
             $log
                 ->setAction('Comment Create')
-                ->setDetail("Left for $entity with ID: $id")
+                ->setDetail('Left for ' . urldecode($entity) . " with ID: $id")
                 ->setUserCreated($user);
 
             // persist note, log, flush db
