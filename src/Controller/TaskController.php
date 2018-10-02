@@ -201,6 +201,7 @@ class TaskController extends Controller
             'task' => $task,
             'editable' => $this->authEditCheck($user, $task),
             'subscribed' => $task->getUserSubscribed()->contains($user),
+            'lock_notes' => \in_array($task->getStatus(), ['Closed', 'Cancelled']),
             'target_diff_string' => null,
             'target_diff_class' => null,
             'target_diff_icon' => null,

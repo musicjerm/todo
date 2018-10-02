@@ -78,7 +78,7 @@
 
         {% if task.followUp %}
             <div class="panel panel-{{ attribute(status_class, task.status) }}">
-                <div class="panel-body"><br>{{ task.followUp|raw|nl2br }}</div>
+                <div class="panel-body">{{ task.followUp|raw|nl2br }}</div>
             </div>
         {% endif %}
 
@@ -95,7 +95,11 @@
     </div>
 
     <div id="note_view">
-        {{ render(controller('App\\Controller\\NoteController::createAction', { 'entity': 'App:Task'|url_encode, 'id': task.id, 'lock': false })) }}
+        {{ render(controller('App\\Controller\\NoteController::createAction', {
+            'entity': 'App:Task'|url_encode,
+            'id': task.id,
+            'lock': lock_notes
+        })) }}
     </div>
 
     <div class="modal-footer">
