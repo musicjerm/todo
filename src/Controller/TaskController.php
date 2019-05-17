@@ -9,14 +9,14 @@ use App\Form\Task\TaskData;
 use App\Form\Task\TaskCreateType;
 use App\Form\Task\TaskTransformer;
 use App\Form\Task\TaskUpdateType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class TaskController extends Controller
+class TaskController extends AbstractController
 {
     /**
      * @Route("/task/create", name="create_task")

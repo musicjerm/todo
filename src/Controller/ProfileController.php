@@ -8,13 +8,13 @@ use App\Form\User\ProfileUpdateType;
 use App\Form\User\ResetPasswordData;
 use App\Form\User\ResetPasswordType;
 use App\Form\User\UserUpdateData;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ProfileController extends Controller
+class ProfileController extends AbstractController
 {
     /**
      * @Route("/profile", name="profile")

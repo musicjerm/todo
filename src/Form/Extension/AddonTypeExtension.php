@@ -11,13 +11,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AddonTypeExtension extends AbstractTypeExtension
 {
     /**
-     * Returns the name of the type being extended.
-     *
-     * @return string TextType
+     * Return the class of the type being extended.
      */
-    public function getExtendedType(): string
+    public static function getExtendedTypes(): iterable
     {
-        return TextType::class;
+        // return FormType::class to modify (nearly) every field in the system
+        return [TextType::class];
     }
 
     /**

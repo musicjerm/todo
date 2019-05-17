@@ -5,12 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Setup\CreateAdminData;
 use App\Form\Setup\CreateAdminType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SetupController extends Controller
+class SetupController extends AbstractController
 {
     /**
      * @Route("/setup", name="application_setup")

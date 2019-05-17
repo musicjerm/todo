@@ -7,13 +7,13 @@ use App\Entity\Note;
 use App\Entity\User;
 use App\Form\Note\NoteCreateType;
 use App\Form\Note\NoteUpdateType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class NoteController extends Controller
+class NoteController extends AbstractController
 {
     /**
      * @Route("/note/create/{entity}/{id}/{lock}", name="note_create")
